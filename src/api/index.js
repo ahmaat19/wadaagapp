@@ -24,6 +24,13 @@ export default function apiHook({ key, method, url }) {
       })
       return { update }
 
+    case 'DELETE':
+      const deleteObj = useMutation((obj) => axiosApi(method, url, obj), {
+        retry: 0,
+        onSuccess: async () => await queryClient.invalidateQueries([key]),
+      })
+      return { deleteObj }
+
     default:
       break
   }

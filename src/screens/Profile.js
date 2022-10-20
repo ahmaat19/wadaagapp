@@ -58,6 +58,15 @@ const Profile = () => {
   }, [putProfile?.isSuccess])
 
   useEffect(() => {
+    if (putProfile?.isError) {
+      showMessage({
+        message: putProfile?.error,
+        type: 'danger',
+      })
+    }
+  }, [putProfile?.error])
+
+  useEffect(() => {
     const permissionRequest = async () => {
       if (Platform.OS !== 'web') {
         const { status } =
@@ -122,70 +131,74 @@ const Profile = () => {
   }
 
   return (
-    <ScrollView>
-      <KeyboardAvoidWrapperTabs>
-        <FlashMessage
-          position='top'
-          style={{
-            alignItems: 'center',
-            paddingTop: -30,
-          }}
-        />
-        <Spinner visible={getProfile?.isLoading || putProfile?.isLoading} />
+    <>
+      <ScrollView>
+        <KeyboardAvoidWrapperTabs>
+          <FlashMessage
+            position='top'
+            style={{
+              alignItems: 'center',
+              paddingTop: -30,
+            }}
+          />
+          <Spinner visible={getProfile?.isLoading || putProfile?.isLoading} />
 
-        <View className='mx-5 my-auto'>
-          <View className='rounded-full items-center'>
-            <TouchableOpacity onPress={() => pickImage()}>
-              <Image
-                source={{ url: image }}
-                className='w-40 h-40 rounded-full mb-3'
+          <View className='mx-5 my-auto'>
+            <View className='rounded-full items-center'>
+              <TouchableOpacity onPress={() => pickImage()}>
+                <Image
+                  source={{ url: image }}
+                  className='w-40 h-40 rounded-full mb-3'
+                />
+                <Text className='text-center'>Change profile picture</Text>
+              </TouchableOpacity>
+
+              <View className='bg-purple-800 px-4 py-2 rounded-full my-3'>
+                <Text className='text-white uppercase'>{userType}</Text>
+              </View>
+            </View>
+
+            {getProfile?.isError ||
+              (putProfile?.isError && (
+                <View className='items-center my-2 border border-purple-800 py-2'>
+                  <Text className='text-red-500'>
+                    {getProfile?.error || putProfile?.error}
+                  </Text>
+                </View>
+              ))}
+
+            <View className='my-2'>
+              <CustomInput
+                control={control}
+                rules={{
+                  required: 'Name is required',
+                }}
+                errors={errors}
+                className='bg-white p-2.5'
+                name='name'
+                autoFocus={true}
+                placeholder='Name'
               />
-              <Text className='text-center'>Change profile picture</Text>
-            </TouchableOpacity>
+            </View>
 
-            <View className='bg-purple-800 px-4 py-2 rounded-full my-3'>
-              <Text className='text-white uppercase'>{userType}</Text>
+            <View className='my-2'>
+              <TouchableOpacity
+                onPress={handleSubmit(submitHandler)}
+                className='p-2.5 bg-purple-800'
+              >
+                {putProfile?.isLoading ? (
+                  <ActivityIndicator size='small' color='#fff' />
+                ) : (
+                  <Text className='text-white uppercase text-center'>
+                    Update
+                  </Text>
+                )}
+              </TouchableOpacity>
             </View>
           </View>
-
-          {getProfile?.isError ||
-            (putProfile?.isError && (
-              <View className='items-center my-2 border border-purple-800 py-2'>
-                <Text className='text-red-500'>
-                  {getProfile?.error || putProfile?.error}
-                </Text>
-              </View>
-            ))}
-
-          <View className='my-2'>
-            <CustomInput
-              control={control}
-              rules={{
-                required: 'Name is required',
-              }}
-              errors={errors}
-              className='bg-white p-2.5'
-              name='name'
-              autoFocus={true}
-              placeholder='Name'
-            />
-          </View>
-
-          <View className='my-2'>
-            <TouchableOpacity
-              onPress={handleSubmit(submitHandler)}
-              className='p-2.5 bg-purple-800'
-            >
-              {putProfile?.isLoading ? (
-                <ActivityIndicator size='small' color='#fff' />
-              ) : (
-                <Text className='text-white uppercase text-center'>Update</Text>
-              )}
-            </TouchableOpacity>
-          </View>
-        </View>
-      </KeyboardAvoidWrapperTabs>
-    </ScrollView>
+        </KeyboardAvoidWrapperTabs>
+      </ScrollView>
+    </>
   )
 }
 

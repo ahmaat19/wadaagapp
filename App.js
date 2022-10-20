@@ -67,7 +67,13 @@ export const MyTabs = ({ navigation }) => {
         tabBarInactiveTintColor: 'gray',
       })}
     >
-      <Tab.Screen name='Home' component={Home} />
+      <Tab.Screen
+        name='Home'
+        component={Home}
+        options={{
+          headerShown: false,
+        }}
+      />
       <Tab.Screen name='Setting' component={Setting} />
 
       {/* <Tab.Screen
@@ -153,7 +159,7 @@ export default function App() {
         <NavigationContainer>
           <QueryClientProvider client={queryClient}>
             <Stack.Navigator
-            // initialRouteName='Map'
+            // initialRouteName='Riders'
             >
               {state.isLoading ? (
                 <Stack.Screen

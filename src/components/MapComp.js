@@ -1,17 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import MapView, { Marker } from 'react-native-maps'
 import MapViewDirections from 'react-native-maps-directions'
 import { GOOGLE_MAPS_API_KEY } from '@env'
 
-const MapComp = ({ origin, destination }) => {
+const MapComp = ({
+  origin,
+  destination,
+  setDistance,
+  setDuration,
+  setError,
+}) => {
   const mapRef = useRef(null)
-  const [distance, setDistance] = useState(null)
-  const [duration, setDuration] = useState(null)
 
   useEffect(() => {
     if (!origin || !destination) return
     mapRef.current.fitToSuppliedMarkers(['origin', 'destination'], {
-      edgePadding: { top: 50, right: 50, left: 50, bottom: 50 },
+      edgePadding: { top: 100, right: 100, left: 100, bottom: 100 },
     })
   }, [origin, destination])
 
@@ -19,15 +23,19 @@ const MapComp = ({ origin, destination }) => {
     if (!origin || !destination) return
 
     const getTravelTime = async () => {
-      fetch(
+      await fetch(
         `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${origin.description}&destinations=${destination.description}&key=${GOOGLE_MAPS_API_KEY}`
       )
         .then((res) => res.json())
         .then((data) => {
-          setDuration(data?.rows[0]?.elements[0]?.duration?.value)
-          setDistance(data?.rows[0]?.elements[0]?.distance?.value)
+          setDuration(data?.rows[0]?.elements[0]?.duration?.text)
+          setDistance(data?.rows[0]?.elements[0]?.distance?.text)
+          setError(null)
         })
-        .catch((err) => console.log(err))
+        .catch((err) => {
+          setError(err)
+          console.log(err)
+        })
     }
     getTravelTime()
   }, [origin, destination, GOOGLE_MAPS_API_KEY])
