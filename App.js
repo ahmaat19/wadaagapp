@@ -29,9 +29,12 @@ import Admin from './src/screens/Admin'
 import Map from './src/screens/Map'
 import Riders from './src/screens/Riders'
 
+// import { io } from 'socket.io-client'
+
 const queryClient = new QueryClient()
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
+const user = 'ahmed'
 
 export const MyTabs = ({ navigation }) => {
   useEffect(() => {
@@ -86,6 +89,8 @@ export const MyTabs = ({ navigation }) => {
 }
 
 export default function App() {
+  // let socket = io('http://localhost:3000')
+
   const [state, dispatch] = useReducer(
     (prevState, action) => {
       switch (action.type) {
@@ -116,6 +121,33 @@ export default function App() {
       userInfo: null,
     }
   )
+
+  // useEffect(() => {
+  //   socket.on(`${user.toString()}1`, async (data) => {
+  //     notification()
+  //     // dispatch(
+  //     //   setChat({
+  //     //     _id: data._id,
+  //     //     riderOneId: data.riderOneId,
+  //     //     riderOneName: data.riderOneName,
+  //     //     riderOneAvatar: data.riderOneAvatar,
+  //     //     riderOneMobile: data.riderOneMobile,
+
+  //     //     riderTwoId: data.riderTwoId,
+  //     //     riderTwoName: data.riderTwoName,
+  //     //     riderTwoAvatar: data.riderTwoAvatar,
+  //     //     riderTwoMobile: data.riderTwoMobile,
+
+  //     //     price: data.price,
+  //     //     message: data.message,
+  //     //     createdAt: data.createdAt,
+  //     //   })
+  //     // )
+
+  //     return null
+  //   })
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [user])
 
   useEffect(() => {
     SecureStore.getItemAsync('userInfo')
@@ -159,7 +191,7 @@ export default function App() {
         <NavigationContainer>
           <QueryClientProvider client={queryClient}>
             <Stack.Navigator
-            // initialRouteName='Riders'
+            // initialRouteName='Chat'
             >
               {state.isLoading ? (
                 <Stack.Screen

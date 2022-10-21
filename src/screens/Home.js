@@ -128,7 +128,7 @@ const Home = ({ navigation }) => {
 
       <View
         className={`px-5 flex-auto ${
-          pendingTrip?.data?.status === 'pending' ? 'py-12' : 'pt-12'
+          pendingTrip?.data?.status === 'pending' ? 'py-16' : 'pt-16'
         }`}
       >
         <Spinner

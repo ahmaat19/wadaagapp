@@ -39,6 +39,12 @@ const Map = ({ navigation, route }) => {
     url: 'rides',
   })?.post
 
+  const searchNearRiders = apiHook({
+    key: 'near-riders',
+    method: 'POST',
+    url: 'rides/near-riders',
+  })?.post
+
   useEffect(() => {
     if (!route.params) {
       navigation.navigate('HomeTabs')
@@ -55,13 +61,13 @@ const Map = ({ navigation, route }) => {
   }, [error])
 
   useEffect(() => {
-    if (startTrip?.isError) {
+    if (startTrip?.isError || searchNearRiders?.isError) {
       showMessage({
-        message: startTrip?.error,
+        message: startTrip?.error || searchNearRiders?.error,
         type: 'danger',
       })
     }
-  }, [startTrip?.error])
+  }, [startTrip?.error, searchNearRiders?.error])
 
   const submitHandler = (data) => {
     if (route?.params?.selected === 'riderOne') {
@@ -76,6 +82,7 @@ const Map = ({ navigation, route }) => {
         })
         .then((res) => {
           navigation.navigate('Home')
+          return res
         })
         .catch((err) => {
           console.log(err)
@@ -87,7 +94,19 @@ const Map = ({ navigation, route }) => {
       const originLatLng = `${route?.params?.origin?.location?.lat},${route?.params?.origin?.location?.lng}`
       const destinationLatLng = `${destination?.location?.lat},${destination?.location?.lng}`
 
-      navigation.navigate('Riders', { originLatLng, destinationLatLng })
+      searchNearRiders
+        ?.mutateAsync({
+          originLatLng: originLatLng,
+          destinationLatLng: destinationLatLng,
+        })
+        .then((res) => {
+          navigation.navigate('Riders', { originLatLng, destinationLatLng })
+          // return res
+        })
+        .catch((err) => {
+          console.log(err)
+          return err
+        })
     }
   }
 
@@ -102,7 +121,7 @@ const Map = ({ navigation, route }) => {
           alignItems: 'center',
         }}
       />
-      <Spinner visible={startTrip?.isLoading} />
+      <Spinner visible={startTrip?.isLoading || searchNearRiders?.isLoading} />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View className='flex-1'>
           <View className='h-2/3'>
