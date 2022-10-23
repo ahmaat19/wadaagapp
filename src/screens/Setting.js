@@ -1,13 +1,24 @@
-import React, { useContext } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import React, { useCallback, useContext, useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { AuthContext } from '../AuthContext'
 import ListItem from '../components/ListItem'
+import * as SecureStore from 'expo-secure-store'
 
 const Setting = ({ navigation }) => {
   const { signOut } = useContext(AuthContext)
+  const [userInfo, setUserInfo] = useState(null)
 
-  const items = [
+  useFocusEffect(
+    useCallback(() => {
+      SecureStore.getItemAsync('userInfo')
+        .then((res) => setUserInfo(JSON.parse(res)))
+        .catch((err) => console.log(err))
+    }, [])
+  )
+
+  let items = [
     {
       label: 'Account Settings',
       info: [
@@ -23,7 +34,7 @@ const Setting = ({ navigation }) => {
         },
       ],
     },
-    {
+    userInfo?.userType === 'rider' && {
       label: 'Payments',
       info: [
         {
@@ -53,15 +64,15 @@ const Setting = ({ navigation }) => {
         },
       ],
     },
-    {
-      label: 'Complaints',
-      info: [
-        {
-          icon: 'pen',
-          label: 'Complaints',
-        },
-      ],
-    },
+    // {
+    //   label: 'Complaints',
+    //   info: [
+    //     {
+    //       icon: 'pen',
+    //       label: 'Complaints',
+    //     },
+    //   ],
+    // },
     {
       label: 'Logout',
       info: [
@@ -72,6 +83,10 @@ const Setting = ({ navigation }) => {
       ],
     },
   ]
+
+  // if (userInfo?.userType === 'admin') {
+  //   items = items?.filter((item) => delete item.label === 'Payments' && item)
+  // }
 
   return (
     <ScrollView className='py-3'>

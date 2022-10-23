@@ -1,8 +1,9 @@
-import { View, FlatList, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { View, FlatList, TouchableOpacity, Text } from 'react-native'
+import React, { useCallback } from 'react'
 import TransactionItem from '../components/TransactionItem'
 import apiHook from '../api'
 import Spinner from 'react-native-loading-spinner-overlay'
+import { useFocusEffect } from '@react-navigation/native'
 
 const Transaction = () => {
   const transactions = apiHook({
@@ -10,6 +11,12 @@ const Transaction = () => {
     method: 'GET',
     url: 'reports/payments/transactions',
   })?.get
+
+  useFocusEffect(
+    useCallback(() => {
+      transactions?.refetch()
+    }, [])
+  )
 
   return (
     <View className='pb-3'>

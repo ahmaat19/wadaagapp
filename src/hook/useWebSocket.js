@@ -27,8 +27,6 @@ export const useWebSocket = ({ userId, enabled, onConnected }) => {
 
     const socket = io(baseUrl)
 
-    socket.emit('joinRoom', userId)
-
     socket.emit('message', (msg) => {
       setMessage(msg)
     })
@@ -41,10 +39,6 @@ export const useWebSocket = ({ userId, enabled, onConnected }) => {
       if (onConnected) {
         onConnected()
       }
-    })
-
-    socket.on('reconnect', () => {
-      socket.emit('joinRoom', userId)
     })
 
     ref.current = socket

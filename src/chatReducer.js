@@ -7,7 +7,8 @@ export const chatReducer = (state, action) => {
     case 'FETCH_CHATS':
       return {
         ...state,
-        messages: [...state.messages, action.payload],
+        // messages: [...state.messages, action.payload],
+        messages: action.payload,
       }
 
     default:

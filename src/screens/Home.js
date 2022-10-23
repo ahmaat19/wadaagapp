@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Image } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useReducer, useState } from 'react'
 import { FontAwesome5 } from '@expo/vector-icons'
 import * as SecureStore from 'expo-secure-store'
 import apiHook from '../api'
@@ -8,11 +8,21 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import * as Location from 'expo-location'
 import { GOOGLE_MAPS_API_KEY } from '@env'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { chatReducer, INITIAL_STATE } from '../chatReducer'
+import { useFocusEffect } from '@react-navigation/native'
 
 const Home = ({ navigation }) => {
   const [userInfo, setUserInfo] = useState(null)
   const [selected, setSelected] = useState(null)
   const [origin, setOrigin] = useState(null)
+
+  const [state, dispatch] = useReducer(chatReducer, INITIAL_STATE)
+
+  useEffect(() => {
+    if (state.messages.length > 0) {
+      console.log('Found messages')
+    }
+  }, [state])
 
   const [location, setLocation] = useState(null)
 
@@ -55,6 +65,14 @@ const Home = ({ navigation }) => {
       .catch((err) => console.log(err))
   }, [])
 
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     SecureStore.getItemAsync('userInfo')
+  //       .then((res) => setUserInfo(JSON.parse(res)))
+  //       .catch((err) => console.log(err))
+  //   }, [])
+  // )
+
   useEffect(() => {
     if (userInfo?.userType === 'admin') {
       setSelected(null)
@@ -83,6 +101,13 @@ const Home = ({ navigation }) => {
     method: 'GET',
     url: 'rides/pending',
   })?.get
+
+  useFocusEffect(
+    useCallback(() => {
+      transactions?.refetch()
+      pendingTrip?.refetch()
+    }, [])
+  )
 
   const cancelTrip = apiHook({
     key: 'trip-cancel',

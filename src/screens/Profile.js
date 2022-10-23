@@ -145,7 +145,7 @@ const Profile = () => {
 
           <View className='mx-5 my-auto'>
             <View className='rounded-full items-center'>
-              <TouchableOpacity onPress={() => pickImage()}>
+              <TouchableOpacity>
                 <Image
                   source={{ url: image }}
                   className='w-40 h-40 rounded-full mb-3'

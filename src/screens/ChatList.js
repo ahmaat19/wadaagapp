@@ -1,35 +1,45 @@
 import { View, FlatList, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import ChatItem from '../components/ChatItem'
+import FlashMessage, { showMessage } from 'react-native-flash-message'
+import apiHook from '../api'
+import Spinner from 'react-native-loading-spinner-overlay'
+import { useFocusEffect } from '@react-navigation/native'
 
 const ChatList = ({ navigation }) => {
-  const chatHistories = [
-    {
-      _id: '1',
-      name: 'John Smith',
-      lastMessage: 'Hi there!',
-      createdAt: new Date(),
-      image: 'https://github.com/ok.png',
-    },
-    {
-      _id: '2',
-      name: 'John Doe',
-      lastMessage: "Let's go!",
-      createdAt: new Date(),
-      image: 'https://github.com/mostafa.png',
-    },
-    {
-      _id: '3',
-      name: 'Ahmed Ibrahim',
-      lastMessage: 'It has 28 days left before it expires.',
-      createdAt: new Date(),
-      image: 'https://github.com/ahmaat19.png',
-    },
-  ]
+  const chatHistory = apiHook({
+    key: 'chat',
+    method: 'GET',
+    url: `chats/histories`,
+  })?.get
+
+  useFocusEffect(
+    useCallback(() => {
+      chatHistory.refetch()
+    }, [])
+  )
+
+  useEffect(() => {
+    if (chatHistory?.isError) {
+      showMessage({
+        message: chatHistory?.error,
+        type: 'danger',
+      })
+    }
+  }, [chatHistory?.error])
+
   return (
     <View className='py-3'>
+      <FlashMessage
+        position='top'
+        style={{
+          alignItems: 'center',
+        }}
+      />
+      <Spinner visible={chatHistory?.isLoading} />
+
       <FlatList
-        data={chatHistories}
+        data={chatHistory?.data?.data}
         renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() =>

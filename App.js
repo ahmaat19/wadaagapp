@@ -1,9 +1,15 @@
-import { NavigationContainer } from '@react-navigation/native'
+import { NavigationContainer, useFocusEffect } from '@react-navigation/native'
 import { StatusBar } from 'expo-status-bar'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import * as SecureStore from 'expo-secure-store'
-import React, { useEffect, useMemo, useReducer } from 'react'
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState,
+} from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import Home from './src/screens/Home'
 import Login from './src/screens/Login'
@@ -37,6 +43,16 @@ const Tab = createBottomTabNavigator()
 const user = 'ahmed'
 
 export const MyTabs = ({ navigation }) => {
+  const [userInfo, setUserInfo] = useState(null)
+
+  useFocusEffect(
+    useCallback(() => {
+      SecureStore.getItemAsync('userInfo')
+        .then((res) => setUserInfo(JSON.parse(res)))
+        .catch((err) => console.log(err))
+    }, [])
+  )
+
   useEffect(() => {
     SecureStore.getItemAsync('userInfo')
       .then((data) => {
@@ -62,6 +78,8 @@ export const MyTabs = ({ navigation }) => {
             iconName = 'home'
           } else if (route.name === 'Setting') {
             iconName = 'cog'
+          } else if (route.name === 'ChatList') {
+            iconName = 'facebook-messenger'
           }
 
           return <FontAwesome5 name={iconName} size={size} color={color} />
@@ -78,12 +96,13 @@ export const MyTabs = ({ navigation }) => {
         }}
       />
       <Tab.Screen name='Setting' component={Setting} />
-
-      {/* <Tab.Screen
-        options={{ headerShown: true, headerTitle: 'Chatting History' }}
-        name='ChatList'
-        component={ChatList}
-      /> */}
+      {userInfo?.userType === 'rider' && (
+        <Tab.Screen
+          options={{ headerShown: true, headerTitle: 'Chatting History' }}
+          name='ChatList'
+          component={ChatList}
+        />
+      )}
     </Tab.Navigator>
   )
 }

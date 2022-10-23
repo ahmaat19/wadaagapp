@@ -48,11 +48,11 @@ const Login = () => {
     login
       .mutateAsync(data)
       .then((res) => {
-        console.log(res.otp)
         navigation.navigate('OTP', {
           mobileNumber: res.mobileNumber,
           name: res.name,
           _id: res._id,
+          otp: res.otp,
         })
       })
       .catch((err) => {
@@ -60,48 +60,47 @@ const Login = () => {
       })
   }
   return (
-    <>
-      <FlashMessage
-        position='top'
-        style={{
-          alignItems: 'center',
-        }}
-      />
-      <ScrollView>
-        <KeyboardAvoidWrapper>
-          <View className='mx-5'>
-            <View className='mt-2 mb-4 items-center'>
-              <Spinner visible={login?.isLoading} />
-              <View className='bg-white p-0 rounded-full w-auto'>
-                <Image
-                  source={require('../../assets/logo.png')}
-                  className='w-20 h-20 rounded-full'
-                />
-              </View>
-              <Text className='text-center font-bold text-2xl mb-2'>
-                Welcome back
-              </Text>
-              <Text className='text-center'>Just one minute away from</Text>
-              <Text className='text-center'>experiencing this app</Text>
-            </View>
-
-            <View className='my-2'>
-              <CustomInput
-                control={control}
-                rules={{
-                  required: 'Mobile number is required',
-                }}
-                errors={errors}
-                className='bg-white p-2.5'
-                name='mobileNumber'
-                autoFocus={true}
-                placeholder='Mobile number'
-                keyboardType='number-pad'
-                textContentType='number-pad'
+    <ScrollView>
+      <KeyboardAvoidWrapper>
+        <FlashMessage
+          position='top'
+          style={{
+            alignItems: 'center',
+          }}
+        />
+        <View className='mx-5'>
+          <View className='mt-2 mb-4 items-center'>
+            <Spinner visible={login?.isLoading} />
+            <View className='bg-white p-0 rounded-full w-auto'>
+              <Image
+                source={require('../../assets/logo.png')}
+                className='w-20 h-20 rounded-full'
               />
             </View>
+            <Text className='text-center font-bold text-2xl mb-2'>
+              Welcome back
+            </Text>
+            <Text className='text-center'>Just one minute away from</Text>
+            <Text className='text-center'>experiencing this app</Text>
+          </View>
 
-            {/* <View className='my-2 items-end'>
+          <View className='my-2'>
+            <CustomInput
+              control={control}
+              rules={{
+                required: 'Mobile number is required',
+              }}
+              errors={errors}
+              className='bg-white p-2.5'
+              name='mobileNumber'
+              autoFocus={true}
+              placeholder='Mobile number'
+              keyboardType='number-pad'
+              textContentType='number-pad'
+            />
+          </View>
+
+          {/* <View className='my-2 items-end'>
             <TouchableOpacity
               onPress={() => navigation.navigate('ForgetPassword')}
             >
@@ -109,85 +108,80 @@ const Login = () => {
             </TouchableOpacity>
           </View> */}
 
-            <View className='my-2'>
-              <TouchableOpacity
-                onPress={handleSubmit(submitHandler)}
-                className='p-2.5 bg-purple-800'
-              >
-                {login?.isLoading ? (
-                  <ActivityIndicator size='small' color='#fff' />
-                ) : (
-                  <Text className='text-white uppercase text-center'>
-                    Login
+          <View className='my-2'>
+            <TouchableOpacity
+              onPress={handleSubmit(submitHandler)}
+              className='p-2.5 bg-purple-800'
+            >
+              {login?.isLoading ? (
+                <ActivityIndicator size='small' color='#fff' />
+              ) : (
+                <Text className='text-white uppercase text-center'>Login</Text>
+              )}
+            </TouchableOpacity>
+          </View>
+
+          {/* social media links */}
+          <View>
+            <Text className='text-gray-400 text-center mt-12'>
+              Or continue with
+            </Text>
+
+            <View className='p-5 my-3 flex-row justify-around'>
+              <View>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Home')}
+                  className='w-auto border border-purple-800 py-1 px-2'
+                >
+                  <Text className='text-purple-800'>
+                    <FontAwesome5 name='facebook' size={34} />
                   </Text>
-                )}
+                </TouchableOpacity>
+              </View>
+              <View>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Home')}
+                  className='w-auto border border-purple-800 py-1 px-2'
+                >
+                  <Text className='text-purple-800'>
+                    <FontAwesome5 name='github' size={34} />
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Home')}
+                  className='w-auto border border-purple-800 py-1 px-2'
+                >
+                  <Text className='text-purple-800'>
+                    <FontAwesome5 name='apple' size={34} />
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Home')}
+                  className='w-auto border border-purple-800 py-1 px-2'
+                >
+                  <Text className='text-purple-800'>
+                    <FontAwesome5 name='google' size={34} />
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            <View className='flex-row justify-center'>
+              <TouchableOpacity>
+                <Text>Don't have an account? </Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+                <Text className='text-purple-800 font-bold'>Register</Text>
               </TouchableOpacity>
             </View>
-
-            {/* social media links */}
-            <View>
-              <Text className='text-gray-400 text-center mt-12'>
-                Or continue with
-              </Text>
-
-              <View className='p-5 my-3 flex-row justify-around'>
-                <View>
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate('Home')}
-                    className='w-auto border border-purple-800 py-1 px-2'
-                  >
-                    <Text className='text-purple-800'>
-                      <FontAwesome5 name='facebook' size={34} />
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-                <View>
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate('Home')}
-                    className='w-auto border border-purple-800 py-1 px-2'
-                  >
-                    <Text className='text-purple-800'>
-                      <FontAwesome5 name='github' size={34} />
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-                <View>
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate('Home')}
-                    className='w-auto border border-purple-800 py-1 px-2'
-                  >
-                    <Text className='text-purple-800'>
-                      <FontAwesome5 name='apple' size={34} />
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-                <View>
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate('Home')}
-                    className='w-auto border border-purple-800 py-1 px-2'
-                  >
-                    <Text className='text-purple-800'>
-                      <FontAwesome5 name='google' size={34} />
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-
-              <View className='flex-row justify-center'>
-                <TouchableOpacity>
-                  <Text>Don't have an account? </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('Register')}
-                >
-                  <Text className='text-purple-800 font-bold'>Register</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
           </View>
-        </KeyboardAvoidWrapper>
-      </ScrollView>
-    </>
+        </View>
+      </KeyboardAvoidWrapper>
+    </ScrollView>
   )
 }
 

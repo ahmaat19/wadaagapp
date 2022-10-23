@@ -51,6 +51,7 @@ const Register = () => {
           mobileNumber: res.mobileNumber,
           name: res.name,
           _id: res._id,
+          otp: res.otp,
         })
       })
       .catch((err) => {
@@ -60,15 +61,15 @@ const Register = () => {
 
   return (
     <>
-      <FlashMessage
-        position='top'
-        style={{
-          alignItems: 'center',
-        }}
-      />
       <SafeAreaView>
         <ScrollView>
           <KeyboardAvoidWrapper>
+            <FlashMessage
+              position='top'
+              style={{
+                alignItems: 'center',
+              }}
+            />
             <View className='mx-5'>
               <Spinner visible={register?.isLoading} />
 
@@ -96,7 +97,7 @@ const Register = () => {
                 />
               </View>
 
-              <View className='my-2'>
+              {/* <View className='my-2'>
                 <CustomInput
                   control={control}
                   rules={{
@@ -113,7 +114,7 @@ const Register = () => {
                   keyboardType='email-address'
                   textContentType='emailAddress'
                 />
-              </View>
+              </View> */}
 
               <View className='my-2'>
                 <CustomInput

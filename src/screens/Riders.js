@@ -55,7 +55,7 @@ const Riders = ({ navigation, route }) => {
               <TouchableOpacity
                 onPress={() =>
                   navigation.navigate('Chat', {
-                    _id: item._id,
+                    _id: item.rider,
                     name: item?.name,
                   })
                 }

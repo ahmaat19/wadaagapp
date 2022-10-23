@@ -3,7 +3,7 @@ import React from 'react'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 
-const Contact = ({ navigation }) => {
+const Contact = () => {
   const user = {
     name: 'Ahmed Ibrahim',
     email: 'info@ahmedibra.com',

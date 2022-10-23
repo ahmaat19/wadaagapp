@@ -16,8 +16,6 @@ import CustomInput from '../components/CustomInput'
 import { FontAwesome5 } from '@expo/vector-icons'
 import FlashMessage, { showMessage } from 'react-native-flash-message'
 import apiHook from '../api'
-import RiderCard from '../components/RiderCard'
-import { ScrollView } from 'react-native-gesture-handler'
 
 const Map = ({ navigation, route }) => {
   const [destination, setDestination] = useState(null)

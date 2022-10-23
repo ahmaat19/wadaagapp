@@ -5,9 +5,11 @@ import * as SecureStore from 'expo-secure-store'
 import { GiftedChat } from 'react-native-gifted-chat'
 import { useWebSocket } from '../hook/useWebSocket'
 import 'react-native-get-random-values'
-import { v4 as uuidv4 } from 'uuid'
 import { useReducer } from 'react'
 import { chatReducer, INITIAL_STATE } from '../chatReducer'
+import apiHook from '../api'
+import FlashMessage, { showMessage } from 'react-native-flash-message'
+import Spinner from 'react-native-loading-spinner-overlay'
 
 const Chat = ({ navigation, route }) => {
   const [userInfo, setUserInfo] = useState(null)
@@ -20,6 +22,33 @@ const Chat = ({ navigation, route }) => {
       .catch((err) => console.log(err))
   }, [])
 
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: route?.params?.name,
+    })
+  }, [])
+
+  const chat = apiHook({
+    key: 'get-chat',
+    method: 'GET',
+    url: `chats/${route.params?._id}`,
+  })?.get
+
+  const newChat = apiHook({
+    key: 'new-chat',
+    method: 'POST',
+    url: `chats`,
+  })?.post
+
+  useEffect(() => {
+    if (chat?.isError || newChat?.isError) {
+      showMessage({
+        message: chat?.error,
+        type: 'danger',
+      })
+    }
+  }, [chat?.error, newChat?.error])
+
   const { message, send, receive } = useWebSocket({
     userId: '1',
     enabled: Boolean(state.messages),
@@ -31,43 +60,49 @@ const Chat = ({ navigation, route }) => {
 
     if (!message) return
 
-    dispatch({
-      type: 'FETCH_CHATS',
-      payload: {
-        _id: uuidv4(),
-        text: message?.text,
-        createdAt: message?.createdAt,
-        user: message?.user,
-      },
-    })
+    chat?.refetch()
   }, [message])
   const onSend = useCallback((messages = []) => {
-    send(messages[0])
-  }, [])
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerTitle: route?.params?.name,
-    })
+    newChat
+      .mutateAsync({ ...messages[0], secondUser: route.params?._id })
+      .then((res) => {
+        send(messages[0])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }, [])
 
   const height = Dimensions.get('screen').height
   return (
-    <View style={{ flex: 1 }}>
-      <GiftedChat
-        messages={state?.messages}
-        showAvatarForEveryMessage={true}
-        inverted={false}
-        maxInputLength={height}
-        onSend={(messages) => onSend(messages)}
-        user={{
-          _id: userInfo?._id,
-          name: userInfo?.name,
-          avatar: userInfo?.avatar,
+    <>
+      <FlashMessage
+        position='top'
+        style={{
+          alignItems: 'center',
         }}
       />
-      {Platform.OS === 'android' && <KeyboardAvoidingView behavior='padding' />}
-    </View>
+      <Spinner visible={chat?.isLoading || newChat?.isLoading} />
+      {!chat?.isLoading && !chat?.isError && (
+        <View style={{ flex: 1 }}>
+          <GiftedChat
+            messages={chat.data}
+            showAvatarForEveryMessage={true}
+            inverted={false}
+            maxInputLength={height}
+            onSend={(messages) => onSend(messages)}
+            user={{
+              _id: userInfo?._id,
+              name: userInfo?.name,
+              avatar: userInfo?.avatar,
+            }}
+          />
+          {Platform.OS === 'android' && (
+            <KeyboardAvoidingView behavior='padding' />
+          )}
+        </View>
+      )}
+    </>
   )
 }
 
