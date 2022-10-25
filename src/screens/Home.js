@@ -134,10 +134,10 @@ const Home = ({ navigation }) => {
           <View className='justify-between flex-row top-10'>
             <TouchableOpacity
               onPress={() => navigation.navigate('ChatList')}
-              className='flex-row items-center border border-purple-800 shadow px-3 py-1 rounded-full'
+              className='flex-row items-center border border-purple-700 shadow px-3 py-1 rounded-full'
             >
-              <FontAwesome5 name='comment' size={24} color='#6b21a8' />
-              <Text className='ml-2 text-purple-800'>Chats</Text>
+              <FontAwesome5 name='comment' size={24} color='#7e287e' />
+              <Text className='ml-2 text-purple-700'>Chats</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -167,14 +167,14 @@ const Home = ({ navigation }) => {
         {(transactions?.isError ||
           pendingTrip?.isError ||
           cancelTrip?.isError) && (
-          <View className='items-center my-2 border border-purple-800 py-2'>
+          <View className='items-center my-2 border border-purple-700 py-2'>
             <Text className='text-red-500'>
               {transactions?.error || pendingTrip?.error || cancelTrip?.error}
             </Text>
           </View>
         )}
 
-        <Text className='font-bold text-md text-2xl text-purple-800 my-2'>
+        <Text className='font-bold text-md text-2xl text-purple-700 my-2'>
           {userInfo?.name},
         </Text>
         <Text
@@ -219,7 +219,7 @@ const Home = ({ navigation }) => {
               !origin ? 'opacity-50' : 'opacity-100'
             } justify-center ${
               selected === 'riderOne'
-                ? 'border border-purple-800 shadow-2xl'
+                ? 'border border-purple-700 shadow-2xl'
                 : ''
             }`}
             onPress={() => setSelected('riderOne')}
@@ -233,7 +233,7 @@ const Home = ({ navigation }) => {
               <FontAwesome5
                 name='arrow-circle-right'
                 size={24}
-                color='#6b21a8'
+                color='#7e287e'
               />
             </View>
           </TouchableOpacity>
@@ -243,7 +243,7 @@ const Home = ({ navigation }) => {
               !origin ? 'opacity-50' : 'opacity-100'
             } justify-center ${
               selected === 'riderTwo'
-                ? 'border border-purple-800 shadow-2xl'
+                ? 'border border-purple-700 shadow-2xl'
                 : ''
             }`}
             onPress={() => setSelected('riderTwo')}
@@ -258,7 +258,7 @@ const Home = ({ navigation }) => {
               <FontAwesome5
                 name='arrow-circle-right'
                 size={24}
-                color='#6b21a8'
+                color='#7e287e'
               />
             </View>
           </TouchableOpacity>

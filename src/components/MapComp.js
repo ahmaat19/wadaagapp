@@ -58,7 +58,7 @@ const MapComp = ({
           destination={destination?.description}
           apikey={GOOGLE_MAPS_API_KEY}
           strokeWidth={3}
-          strokeColor='#6b21a8'
+          strokeColor='#7e287e'
         />
       )}
       {origin?.location && (

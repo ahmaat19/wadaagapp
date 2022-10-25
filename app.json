@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "wadaag",
+    "name": "Wadaag",
     "slug": "wadaag",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -9,7 +9,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#7e287e"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -19,13 +19,20 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.wadaag",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#7e287e"
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "65910a2f-9ee6-453a-a6d5-aa6117932ea8"
+      }
     }
   }
 }

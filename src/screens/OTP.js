@@ -93,7 +93,7 @@ const OTP = ({ route }) => {
               autoFocus={true}
               name='one'
               keyboardType='number-pad'
-              className='bg-white py-4 border border-purple-800 w-14 mx-auto text-center'
+              className='bg-white py-4 border border-purple-700 w-14 mx-auto text-center'
             />
             <TextInput
               ref={pin2Ref}
@@ -107,7 +107,7 @@ const OTP = ({ route }) => {
               autoFocus={false}
               name='one'
               keyboardType='number-pad'
-              className='bg-white py-4 border border-purple-800 w-14 mx-auto text-center'
+              className='bg-white py-4 border border-purple-700 w-14 mx-auto text-center'
             />
             <TextInput
               ref={pin3Ref}
@@ -121,7 +121,7 @@ const OTP = ({ route }) => {
               autoFocus={false}
               name='one'
               keyboardType='number-pad'
-              className='bg-white py-4 border border-purple-800 w-14 mx-auto text-center'
+              className='bg-white py-4 border border-purple-700 w-14 mx-auto text-center'
             />
             <TextInput
               ref={pin4Ref}
@@ -130,7 +130,7 @@ const OTP = ({ route }) => {
               autoFocus={false}
               name='one'
               keyboardType='number-pad'
-              className='bg-white py-4 border border-purple-800 w-14 mx-auto text-center'
+              className='bg-white py-4 border border-purple-700 w-14 mx-auto text-center'
             />
           </View>
 
@@ -138,7 +138,7 @@ const OTP = ({ route }) => {
             <TouchableOpacity
               disabled={pin1 && pin2 && pin3 && pin4 ? false : true}
               onPress={() => submitHandler()}
-              className='p-2.5 bg-purple-800'
+              className='p-2.5 bg-purple-700'
             >
               {verifyOtp?.isLoading ? (
                 <ActivityIndicator size='small' color='#fff' />

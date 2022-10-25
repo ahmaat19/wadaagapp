@@ -153,14 +153,14 @@ const Profile = () => {
                 <Text className='text-center'>Change profile picture</Text>
               </TouchableOpacity>
 
-              <View className='bg-purple-800 px-4 py-2 rounded-full my-3'>
+              <View className='bg-purple-700 px-4 py-2 rounded-full my-3'>
                 <Text className='text-white uppercase'>{userType}</Text>
               </View>
             </View>
 
             {getProfile?.isError ||
               (putProfile?.isError && (
-                <View className='items-center my-2 border border-purple-800 py-2'>
+                <View className='items-center my-2 border border-purple-700 py-2'>
                   <Text className='text-red-500'>
                     {getProfile?.error || putProfile?.error}
                   </Text>
@@ -184,7 +184,7 @@ const Profile = () => {
             <View className='my-2'>
               <TouchableOpacity
                 onPress={handleSubmit(submitHandler)}
-                className='p-2.5 bg-purple-800'
+                className='p-2.5 bg-purple-700'
               >
                 {putProfile?.isLoading ? (
                   <ActivityIndicator size='small' color='#fff' />

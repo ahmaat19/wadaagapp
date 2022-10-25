@@ -193,7 +193,7 @@ const Map = ({ navigation, route }) => {
           <View className='h-1/6 px-5 mt-5'>
             <TouchableOpacity
               onPress={handleSubmit(submitHandler)}
-              className='p-3 bg-purple-800 rounded-full justify-center items-center flex-row shadow-lg'
+              className='p-3 bg-purple-700 rounded-full justify-center items-center flex-row shadow-lg'
             >
               {route?.params?.selected === 'riderOne' ? (
                 <>

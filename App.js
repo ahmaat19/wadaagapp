@@ -84,7 +84,7 @@ export const MyTabs = ({ navigation }) => {
 
           return <FontAwesome5 name={iconName} size={size} color={color} />
         },
-        tabBarActiveTintColor: '#6b21a8',
+        tabBarActiveTintColor: '#7e287e',
         tabBarInactiveTintColor: 'gray',
       })}
     >

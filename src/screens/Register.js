@@ -164,7 +164,7 @@ const Register = () => {
               <View className='my-2'>
                 <TouchableOpacity
                   onPress={handleSubmit(submitHandler)}
-                  className='p-2.5 bg-purple-800'
+                  className='p-2.5 bg-purple-700'
                 >
                   {register?.isLoading ? (
                     <ActivityIndicator size='small' color='#fff' />
@@ -181,7 +181,7 @@ const Register = () => {
                   By registering, you confirm that you accept our{' '}
                 </Text>
                 <Text
-                  className='text-purple-800'
+                  className='text-purple-700'
                   onPress={() =>
                     Linking.openURL('https://ahmedibra.com/terms-of-use')
                   }
@@ -190,7 +190,7 @@ const Register = () => {
                 </Text>
                 <Text className='mx-1'>and</Text>
                 <Text
-                  className='text-purple-800'
+                  className='text-purple-700'
                   onPress={() =>
                     Linking.openURL('https://ahmedibra.com/privacy-policy')
                   }
@@ -209,9 +209,9 @@ const Register = () => {
                   <View>
                     <TouchableOpacity
                       onPress={() => navigation.navigate('Home')}
-                      className='w-auto border border-purple-800 py-1 px-2'
+                      className='w-auto border border-purple-700 py-1 px-2'
                     >
-                      <Text className='text-purple-800'>
+                      <Text className='text-purple-700'>
                         <FontAwesome5 name='facebook' size={34} />
                       </Text>
                     </TouchableOpacity>
@@ -219,9 +219,9 @@ const Register = () => {
                   <View>
                     <TouchableOpacity
                       onPress={() => navigation.navigate('Home')}
-                      className='w-auto border border-purple-800 py-1 px-2'
+                      className='w-auto border border-purple-700 py-1 px-2'
                     >
-                      <Text className='text-purple-800'>
+                      <Text className='text-purple-700'>
                         <FontAwesome5 name='github' size={34} />
                       </Text>
                     </TouchableOpacity>
@@ -229,9 +229,9 @@ const Register = () => {
                   <View>
                     <TouchableOpacity
                       onPress={() => navigation.navigate('Home')}
-                      className='w-auto border border-purple-800 py-1 px-2'
+                      className='w-auto border border-purple-700 py-1 px-2'
                     >
-                      <Text className='text-purple-800'>
+                      <Text className='text-purple-700'>
                         <FontAwesome5 name='apple' size={34} />
                       </Text>
                     </TouchableOpacity>
@@ -239,9 +239,9 @@ const Register = () => {
                   <View>
                     <TouchableOpacity
                       onPress={() => navigation.navigate('Home')}
-                      className='w-auto border border-purple-800 py-1 px-2'
+                      className='w-auto border border-purple-700 py-1 px-2'
                     >
-                      <Text className='text-purple-800'>
+                      <Text className='text-purple-700'>
                         <FontAwesome5 name='google' size={34} />
                       </Text>
                     </TouchableOpacity>
@@ -255,7 +255,7 @@ const Register = () => {
                   <TouchableOpacity
                     onPress={() => navigation.navigate('Login')}
                   >
-                    <Text className='text-purple-800 font-bold'>Login</Text>
+                    <Text className='text-purple-700 font-bold'>Login</Text>
                   </TouchableOpacity>
                 </View>
               </View>

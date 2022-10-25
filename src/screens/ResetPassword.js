@@ -75,7 +75,7 @@ const ResetPassword = () => {
           <View className='my-2'>
             <TouchableOpacity
               onPress={handleSubmit(submitHandler)}
-              className='p-2.5 bg-purple-800'
+              className='p-2.5 bg-purple-700'
             >
               <Text className='text-white uppercase text-center'>Reset</Text>
             </TouchableOpacity>

@@ -30,7 +30,7 @@ const CustomInput = ({
             onChangeText={onChange}
             onBlur={onBlur}
             className={`${className} ${
-              error ? 'border border-purple-800' : 'border border-white'
+              error ? 'border border-purple-700' : 'border border-white'
             } `}
             placeholder={placeholder}
             keyboardType={keyboardType}

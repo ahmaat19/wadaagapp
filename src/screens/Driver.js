@@ -25,7 +25,7 @@ const Driver = () => {
     <View className='pb-3'>
       <Spinner visible={transactions?.isLoading} />
       {transactions?.isError && (
-        <View className='items-center my-2 border border-purple-800 py-2 mx-5'>
+        <View className='items-center my-2 border border-purple-700 py-2 mx-5'>
           <Text className='text-red-500'>{transactions?.error}</Text>
         </View>
       )}

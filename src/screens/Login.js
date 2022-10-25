@@ -111,7 +111,7 @@ const Login = () => {
           <View className='my-2'>
             <TouchableOpacity
               onPress={handleSubmit(submitHandler)}
-              className='p-2.5 bg-purple-800'
+              className='p-2.5 bg-purple-700'
             >
               {login?.isLoading ? (
                 <ActivityIndicator size='small' color='#fff' />
@@ -131,9 +131,9 @@ const Login = () => {
               <View>
                 <TouchableOpacity
                   onPress={() => navigation.navigate('Home')}
-                  className='w-auto border border-purple-800 py-1 px-2'
+                  className='w-auto border border-purple-700 py-1 px-2'
                 >
-                  <Text className='text-purple-800'>
+                  <Text className='text-purple-700'>
                     <FontAwesome5 name='facebook' size={34} />
                   </Text>
                 </TouchableOpacity>
@@ -141,9 +141,9 @@ const Login = () => {
               <View>
                 <TouchableOpacity
                   onPress={() => navigation.navigate('Home')}
-                  className='w-auto border border-purple-800 py-1 px-2'
+                  className='w-auto border border-purple-700 py-1 px-2'
                 >
-                  <Text className='text-purple-800'>
+                  <Text className='text-purple-700'>
                     <FontAwesome5 name='github' size={34} />
                   </Text>
                 </TouchableOpacity>
@@ -151,9 +151,9 @@ const Login = () => {
               <View>
                 <TouchableOpacity
                   onPress={() => navigation.navigate('Home')}
-                  className='w-auto border border-purple-800 py-1 px-2'
+                  className='w-auto border border-purple-700 py-1 px-2'
                 >
-                  <Text className='text-purple-800'>
+                  <Text className='text-purple-700'>
                     <FontAwesome5 name='apple' size={34} />
                   </Text>
                 </TouchableOpacity>
@@ -161,9 +161,9 @@ const Login = () => {
               <View>
                 <TouchableOpacity
                   onPress={() => navigation.navigate('Home')}
-                  className='w-auto border border-purple-800 py-1 px-2'
+                  className='w-auto border border-purple-700 py-1 px-2'
                 >
-                  <Text className='text-purple-800'>
+                  <Text className='text-purple-700'>
                     <FontAwesome5 name='google' size={34} />
                   </Text>
                 </TouchableOpacity>
@@ -175,7 +175,7 @@ const Login = () => {
                 <Text>Don't have an account? </Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-                <Text className='text-purple-800 font-bold'>Register</Text>
+                <Text className='text-purple-700 font-bold'>Register</Text>
               </TouchableOpacity>
             </View>
           </View>
