@@ -8,7 +8,7 @@ import 'react-native-get-random-values'
 import { useReducer } from 'react'
 import { chatReducer, INITIAL_STATE } from '../chatReducer'
 import apiHook from '../api'
-import FlashMessage, { showMessage } from 'react-native-flash-message'
+import Toast from 'react-native-toast-message'
 import Spinner from 'react-native-loading-spinner-overlay'
 
 const Chat = ({ navigation, route }) => {
@@ -42,9 +42,9 @@ const Chat = ({ navigation, route }) => {
 
   useEffect(() => {
     if (chat?.isError || newChat?.isError) {
-      showMessage({
-        message: chat?.error,
-        type: 'danger',
+      Toast.show({
+        type: 'error',
+        text1: chat?.error || newChat?.error,
       })
     }
   }, [chat?.error, newChat?.error])
@@ -76,12 +76,7 @@ const Chat = ({ navigation, route }) => {
   const height = Dimensions.get('screen').height
   return (
     <>
-      <FlashMessage
-        position='top'
-        style={{
-          alignItems: 'center',
-        }}
-      />
+      <Toast />
       <Spinner visible={chat?.isLoading || newChat?.isLoading} />
       {!chat?.isLoading && !chat?.isError && (
         <View style={{ flex: 1 }}>

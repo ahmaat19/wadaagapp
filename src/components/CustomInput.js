@@ -8,7 +8,7 @@ const CustomInput = ({
   placeholder,
   name,
   control,
-  className = 'bg-white p-2.5',
+  className = 'bg-white-50 p-2.5',
   autoFocus = false,
   secureTextEntry = false,
   rules = {},
@@ -30,7 +30,7 @@ const CustomInput = ({
             onChangeText={onChange}
             onBlur={onBlur}
             className={`${className} ${
-              error ? 'border border-purple-700' : 'border border-white'
+              error ? 'border border-purple-50' : 'border border-white-50'
             } `}
             placeholder={placeholder}
             keyboardType={keyboardType}

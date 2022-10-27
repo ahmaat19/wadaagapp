@@ -15,7 +15,7 @@ import * as ImagePicker from 'expo-image-picker'
 import { ScrollView } from 'react-native-gesture-handler'
 import apiHook from '../api'
 import * as SecureStore from 'expo-secure-store'
-import FlashMessage, { showMessage } from 'react-native-flash-message'
+import Toast from 'react-native-toast-message'
 
 const Profile = () => {
   const {
@@ -50,18 +50,18 @@ const Profile = () => {
 
   useEffect(() => {
     if (putProfile?.isSuccess) {
-      showMessage({
-        message: 'Profile has been updated successfully',
+      Toast.show({
         type: 'success',
+        text1: 'Profile has been updated successfully',
       })
     }
   }, [putProfile?.isSuccess])
 
   useEffect(() => {
     if (putProfile?.isError) {
-      showMessage({
-        message: putProfile?.error,
-        type: 'danger',
+      Toast.show({
+        type: 'error',
+        text1: putProfile?.error,
       })
     }
   }, [putProfile?.error])
@@ -134,13 +134,7 @@ const Profile = () => {
     <>
       <ScrollView>
         <KeyboardAvoidWrapperTabs>
-          <FlashMessage
-            position='top'
-            style={{
-              alignItems: 'center',
-              paddingTop: -30,
-            }}
-          />
+          <Toast />
           <Spinner visible={getProfile?.isLoading || putProfile?.isLoading} />
 
           <View className='mx-5 my-auto'>
@@ -153,14 +147,14 @@ const Profile = () => {
                 <Text className='text-center'>Change profile picture</Text>
               </TouchableOpacity>
 
-              <View className='bg-purple-700 px-4 py-2 rounded-full my-3'>
-                <Text className='text-white uppercase'>{userType}</Text>
+              <View className='bg-purple-50 px-4 py-2 rounded-full my-3'>
+                <Text className='text-white-50 uppercase'>{userType}</Text>
               </View>
             </View>
 
             {getProfile?.isError ||
               (putProfile?.isError && (
-                <View className='items-center my-2 border border-purple-700 py-2'>
+                <View className='items-center my-2 border border-purple-50 py-2'>
                   <Text className='text-red-500'>
                     {getProfile?.error || putProfile?.error}
                   </Text>
@@ -174,7 +168,7 @@ const Profile = () => {
                   required: 'Name is required',
                 }}
                 errors={errors}
-                className='bg-white p-2.5'
+                className='bg-white-50 p-2.5'
                 name='name'
                 autoFocus={true}
                 placeholder='Name'
@@ -184,12 +178,12 @@ const Profile = () => {
             <View className='my-2'>
               <TouchableOpacity
                 onPress={handleSubmit(submitHandler)}
-                className='p-2.5 bg-purple-700'
+                className='p-2.5 bg-purple-50'
               >
                 {putProfile?.isLoading ? (
                   <ActivityIndicator size='small' color='#fff' />
                 ) : (
-                  <Text className='text-white uppercase text-center'>
+                  <Text className='text-white-50 uppercase text-center'>
                     Update
                   </Text>
                 )}

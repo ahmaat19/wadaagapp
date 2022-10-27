@@ -41,7 +41,7 @@ const ForgetPassword = () => {
               }}
               errors={errors}
               autoFocus={true}
-              className='bg-white p-2.5'
+              className='bg-white-50 p-2.5'
               name='email'
               placeholder='Email address'
               keyboardType='email-address'
@@ -52,9 +52,11 @@ const ForgetPassword = () => {
           <View className='my-2'>
             <TouchableOpacity
               onPress={handleSubmit(submitHandler)}
-              className='p-2.5 bg-purple-700'
+              className='p-2.5 bg-purple-50'
             >
-              <Text className='text-white uppercase text-center'>Forget</Text>
+              <Text className='text-white-50 uppercase text-center'>
+                Forget
+              </Text>
             </TouchableOpacity>
           </View>
         </View>

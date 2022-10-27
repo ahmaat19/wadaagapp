@@ -16,7 +16,7 @@ import Spinner from 'react-native-loading-spinner-overlay'
 import { Picker } from '@react-native-picker/picker'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ScrollView } from 'react-native-gesture-handler'
-import FlashMessage, { showMessage } from 'react-native-flash-message'
+import Toast from 'react-native-toast-message'
 
 const Register = () => {
   const navigation = useNavigation()
@@ -30,9 +30,9 @@ const Register = () => {
 
   useEffect(() => {
     if (register?.isError) {
-      showMessage({
-        message: register?.error,
-        type: 'danger',
+      Toast.show({
+        type: 'error',
+        text1: register?.error,
       })
     }
   }, [register?.error])
@@ -60,44 +60,38 @@ const Register = () => {
   }
 
   return (
-    <>
-      <SafeAreaView>
-        <ScrollView>
-          <KeyboardAvoidWrapper>
-            <FlashMessage
-              position='top'
-              style={{
-                alignItems: 'center',
+    <ScrollView>
+      <KeyboardAvoidWrapper>
+        <Toast />
+
+        <View className='mx-5'>
+          <Spinner visible={register?.isLoading} />
+
+          <View className='bg-white-50'>
+            <Picker
+              selectedValue={userType}
+              onValueChange={(itemValue) => setUserType(itemValue)}
+            >
+              <Picker.Item label='Rider' value='rider' />
+              <Picker.Item label='Driver' value='driver' />
+            </Picker>
+          </View>
+
+          <View className='my-2'>
+            <CustomInput
+              control={control}
+              rules={{
+                required: 'Name is required',
               }}
+              errors={errors}
+              className='bg-white-50 p-2.5'
+              name='name'
+              autoFocus={true}
+              placeholder='Name'
             />
-            <View className='mx-5'>
-              <Spinner visible={register?.isLoading} />
+          </View>
 
-              <View className='bg-white'>
-                <Picker
-                  selectedValue={userType}
-                  onValueChange={(itemValue) => setUserType(itemValue)}
-                >
-                  <Picker.Item label='Rider' value='rider' />
-                  <Picker.Item label='Driver' value='driver' />
-                </Picker>
-              </View>
-
-              <View className='my-2'>
-                <CustomInput
-                  control={control}
-                  rules={{
-                    required: 'Name is required',
-                  }}
-                  errors={errors}
-                  className='bg-white p-2.5'
-                  name='name'
-                  autoFocus={true}
-                  placeholder='Name'
-                />
-              </View>
-
-              {/* <View className='my-2'>
+          {/* <View className='my-2'>
                 <CustomInput
                   control={control}
                   rules={{
@@ -108,7 +102,7 @@ const Register = () => {
                     },
                   }}
                   errors={errors}
-                  className='bg-white p-2.5'
+                  className='bg-white-50 p-2.5'
                   name='email'
                   placeholder='Email address'
                   keyboardType='email-address'
@@ -116,102 +110,102 @@ const Register = () => {
                 />
               </View> */}
 
+          <View className='my-2'>
+            <CustomInput
+              control={control}
+              rules={{
+                required: 'Mobile number is required',
+              }}
+              errors={errors}
+              className='bg-white-50 p-2.5'
+              name='mobileNumber'
+              placeholder='Mobile number'
+              keyboardType='number-pad'
+              textContentType='number-pad'
+            />
+          </View>
+
+          {userType === 'driver' && (
+            <>
               <View className='my-2'>
                 <CustomInput
                   control={control}
                   rules={{
-                    required: 'Mobile number is required',
+                    required: 'Plate number is required',
                   }}
                   errors={errors}
-                  className='bg-white p-2.5'
-                  name='mobileNumber'
-                  placeholder='Mobile number'
-                  keyboardType='number-pad'
-                  textContentType='number-pad'
+                  className='bg-white-50 p-2.5'
+                  name='plate'
+                  placeholder='Plate number'
                 />
               </View>
 
-              {userType === 'driver' && (
-                <>
-                  <View className='my-2'>
-                    <CustomInput
-                      control={control}
-                      rules={{
-                        required: 'Plate number is required',
-                      }}
-                      errors={errors}
-                      className='bg-white p-2.5'
-                      name='plate'
-                      placeholder='Plate number'
-                    />
-                  </View>
-
-                  <View className='my-2'>
-                    <CustomInput
-                      control={control}
-                      rules={{
-                        required: 'License number is required',
-                      }}
-                      errors={errors}
-                      className='bg-white p-2.5'
-                      name='license'
-                      placeholder='License number'
-                    />
-                  </View>
-                </>
-              )}
-
               <View className='my-2'>
-                <TouchableOpacity
-                  onPress={handleSubmit(submitHandler)}
-                  className='p-2.5 bg-purple-700'
-                >
-                  {register?.isLoading ? (
-                    <ActivityIndicator size='small' color='#fff' />
-                  ) : (
-                    <Text className='text-white uppercase text-center'>
-                      Register
-                    </Text>
-                  )}
-                </TouchableOpacity>
+                <CustomInput
+                  control={control}
+                  rules={{
+                    required: 'License number is required',
+                  }}
+                  errors={errors}
+                  className='bg-white-50 p-2.5'
+                  name='license'
+                  placeholder='License number'
+                />
               </View>
+            </>
+          )}
 
-              <View className='flex-row flex-wrap my-2'>
-                <Text className='me-1'>
-                  By registering, you confirm that you accept our{' '}
+          <View className='my-2'>
+            <TouchableOpacity
+              onPress={handleSubmit(submitHandler)}
+              className='p-2.5 bg-purple-50'
+            >
+              {register?.isLoading ? (
+                <ActivityIndicator size='small' color='#fff' />
+              ) : (
+                <Text className='text-white-50 uppercase text-center'>
+                  Register
                 </Text>
-                <Text
-                  className='text-purple-700'
-                  onPress={() =>
-                    Linking.openURL('https://ahmedibra.com/terms-of-use')
-                  }
-                >
-                  Terms of Use
-                </Text>
-                <Text className='mx-1'>and</Text>
-                <Text
-                  className='text-purple-700'
-                  onPress={() =>
-                    Linking.openURL('https://ahmedibra.com/privacy-policy')
-                  }
-                >
-                  Privacy Policy
-                </Text>
-              </View>
+              )}
+            </TouchableOpacity>
+          </View>
 
-              {/* social media links */}
-              <View>
-                <Text className='text-gray-400 text-center mt-12'>
+          <View className='flex-row flex-wrap my-2'>
+            <Text className='me-1'>
+              By registering, you confirm that you accept our{' '}
+            </Text>
+            <Text
+              className='text-purple-50'
+              onPress={() =>
+                Linking.openURL('https://ahmedibra.com/terms-of-use')
+              }
+            >
+              Terms of Use
+            </Text>
+            <Text className='mx-1'>and</Text>
+            <Text
+              className='text-purple-50'
+              onPress={() =>
+                Linking.openURL('https://ahmedibra.com/privacy-policy')
+              }
+            >
+              Privacy Policy
+            </Text>
+          </View>
+
+          {/* social media links */}
+          <View>
+            {/* <Text className='text-gray-400 text-center mt-12'>
                   Or continue with
-                </Text>
+                </Text> */}
 
-                <View className='p-5 my-3 flex flex-row justify-around'>
+            {/* <View className='p-5 my-3 flex flex-row justify-around'>
                   <View>
                     <TouchableOpacity
                       onPress={() => navigation.navigate('Home')}
-                      className='w-auto border border-purple-700 py-1 px-2'
+                      className='w-auto border border-purple-50 py-1 px-2'
                     >
-                      <Text className='text-purple-700'>
+                      <Text className='text-purple-50'>
                         <FontAwesome5 name='facebook' size={34} />
                       </Text>
                     </TouchableOpacity>
@@ -219,9 +213,9 @@ const Register = () => {
                   <View>
                     <TouchableOpacity
                       onPress={() => navigation.navigate('Home')}
-                      className='w-auto border border-purple-700 py-1 px-2'
+                      className='w-auto border border-purple-50 py-1 px-2'
                     >
-                      <Text className='text-purple-700'>
+                      <Text className='text-purple-50'>
                         <FontAwesome5 name='github' size={34} />
                       </Text>
                     </TouchableOpacity>
@@ -229,9 +223,9 @@ const Register = () => {
                   <View>
                     <TouchableOpacity
                       onPress={() => navigation.navigate('Home')}
-                      className='w-auto border border-purple-700 py-1 px-2'
+                      className='w-auto border border-purple-50 py-1 px-2'
                     >
-                      <Text className='text-purple-700'>
+                      <Text className='text-purple-50'>
                         <FontAwesome5 name='apple' size={34} />
                       </Text>
                     </TouchableOpacity>
@@ -239,31 +233,27 @@ const Register = () => {
                   <View>
                     <TouchableOpacity
                       onPress={() => navigation.navigate('Home')}
-                      className='w-auto border border-purple-700 py-1 px-2'
+                      className='w-auto border border-purple-50 py-1 px-2'
                     >
-                      <Text className='text-purple-700'>
+                      <Text className='text-purple-50'>
                         <FontAwesome5 name='google' size={34} />
                       </Text>
                     </TouchableOpacity>
                   </View>
-                </View>
+                </View> */}
 
-                <View className='flex flex-row justify-center'>
-                  <TouchableOpacity>
-                    <Text>Already have an account? </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate('Login')}
-                  >
-                    <Text className='text-purple-700 font-bold'>Login</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
+            <View className='flex flex-row justify-center mt-5'>
+              <TouchableOpacity>
+                <Text>Already have an account? </Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                <Text className='text-purple-50 font-bold'>Login</Text>
+              </TouchableOpacity>
             </View>
-          </KeyboardAvoidWrapper>
-        </ScrollView>
-      </SafeAreaView>
-    </>
+          </View>
+        </View>
+      </KeyboardAvoidWrapper>
+    </ScrollView>
   )
 }
 

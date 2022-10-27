@@ -11,8 +11,8 @@ const TransactionItem = ({ item }) => {
         </Text>
         <Text className='font-extralight'>{item?.mobileNumber}</Text>
       </View>
-      <View className='bg-purple-700 px-3 py-2 rounded-lg w-auto items-center'>
-        <Text className='text-white'>${item?.amount?.toFixed(2)}</Text>
+      <View className='bg-purple-50 px-3 py-2 rounded-lg w-auto items-center'>
+        <Text className='text-white-50'>${item?.amount?.toFixed(2)}</Text>
       </View>
     </View>
   )

@@ -11,7 +11,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import apiHook from '../api'
 import Spinner from 'react-native-loading-spinner-overlay/lib'
 import { AuthContext } from '../AuthContext'
-import FlashMessage, { showMessage } from 'react-native-flash-message'
+import Toast from 'react-native-toast-message'
 
 const OTP = ({ route }) => {
   const { signIn } = useContext(AuthContext)
@@ -24,9 +24,9 @@ const OTP = ({ route }) => {
 
   useEffect(() => {
     if (verifyOtp?.isError) {
-      showMessage({
-        message: verifyOtp?.error,
-        type: 'danger',
+      Toast.show({
+        type: 'error',
+        text1: verifyOtp?.error,
       })
     }
   }, [verifyOtp?.error])
@@ -60,12 +60,7 @@ const OTP = ({ route }) => {
     <ScrollView>
       <KeyboardAvoidWrapper>
         <Spinner visible={verifyOtp?.isLoading} />
-        <FlashMessage
-          position='top'
-          style={{
-            alignItems: 'center',
-          }}
-        />
+        <Toast />
         <View className='mx-5'>
           <Text className='text-center'>
             Use this code,
@@ -93,7 +88,7 @@ const OTP = ({ route }) => {
               autoFocus={true}
               name='one'
               keyboardType='number-pad'
-              className='bg-white py-4 border border-purple-700 w-14 mx-auto text-center'
+              className='bg-white-50 py-4 border border-purple-50 w-14 mx-auto text-center'
             />
             <TextInput
               ref={pin2Ref}
@@ -107,7 +102,7 @@ const OTP = ({ route }) => {
               autoFocus={false}
               name='one'
               keyboardType='number-pad'
-              className='bg-white py-4 border border-purple-700 w-14 mx-auto text-center'
+              className='bg-white-50 py-4 border border-purple-50 w-14 mx-auto text-center'
             />
             <TextInput
               ref={pin3Ref}
@@ -121,7 +116,7 @@ const OTP = ({ route }) => {
               autoFocus={false}
               name='one'
               keyboardType='number-pad'
-              className='bg-white py-4 border border-purple-700 w-14 mx-auto text-center'
+              className='bg-white-50 py-4 border border-purple-50 w-14 mx-auto text-center'
             />
             <TextInput
               ref={pin4Ref}
@@ -130,7 +125,7 @@ const OTP = ({ route }) => {
               autoFocus={false}
               name='one'
               keyboardType='number-pad'
-              className='bg-white py-4 border border-purple-700 w-14 mx-auto text-center'
+              className='bg-white-50 py-4 border border-purple-50 w-14 mx-auto text-center'
             />
           </View>
 
@@ -138,12 +133,12 @@ const OTP = ({ route }) => {
             <TouchableOpacity
               disabled={pin1 && pin2 && pin3 && pin4 ? false : true}
               onPress={() => submitHandler()}
-              className='p-2.5 bg-purple-700'
+              className='p-2.5 bg-purple-50'
             >
               {verifyOtp?.isLoading ? (
                 <ActivityIndicator size='small' color='#fff' />
               ) : (
-                <Text className='text-white uppercase text-center'>
+                <Text className='text-white-50 uppercase text-center'>
                   Confirm OTP
                 </Text>
               )}

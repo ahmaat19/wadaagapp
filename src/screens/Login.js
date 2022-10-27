@@ -14,7 +14,7 @@ import CustomInput from '../components/CustomInput'
 import apiHook from '../api'
 import Spinner from 'react-native-loading-spinner-overlay'
 import { ScrollView } from 'react-native-gesture-handler'
-import FlashMessage, { showMessage } from 'react-native-flash-message'
+import Toast from 'react-native-toast-message'
 
 const Login = () => {
   const navigation = useNavigation()
@@ -27,9 +27,9 @@ const Login = () => {
 
   useEffect(() => {
     if (login?.isError) {
-      showMessage({
-        message: login?.error,
-        type: 'danger',
+      Toast.show({
+        type: 'error',
+        text1: login?.error,
       })
     }
   }, [login?.error])
@@ -40,7 +40,7 @@ const Login = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      mobileNumber: '615301507',
+      // mobileNumber: '615301507',
     },
   })
 
@@ -62,16 +62,11 @@ const Login = () => {
   return (
     <ScrollView>
       <KeyboardAvoidWrapper>
-        <FlashMessage
-          position='top'
-          style={{
-            alignItems: 'center',
-          }}
-        />
+        <Toast />
         <View className='mx-5'>
           <View className='mt-2 mb-4 items-center'>
             <Spinner visible={login?.isLoading} />
-            <View className='bg-white p-0 rounded-full w-auto'>
+            <View className='bg-white-50 p-0 rounded-full w-auto'>
               <Image
                 source={require('../../assets/logo.png')}
                 className='w-20 h-20 rounded-full'
@@ -91,7 +86,7 @@ const Login = () => {
                 required: 'Mobile number is required',
               }}
               errors={errors}
-              className='bg-white p-2.5'
+              className='bg-white-50 p-2.5'
               name='mobileNumber'
               autoFocus={true}
               placeholder='Mobile number'
@@ -111,29 +106,31 @@ const Login = () => {
           <View className='my-2'>
             <TouchableOpacity
               onPress={handleSubmit(submitHandler)}
-              className='p-2.5 bg-purple-700'
+              className='p-2.5 bg-purple-50'
             >
               {login?.isLoading ? (
                 <ActivityIndicator size='small' color='#fff' />
               ) : (
-                <Text className='text-white uppercase text-center'>Login</Text>
+                <Text className='text-white-50 uppercase text-center'>
+                  Login
+                </Text>
               )}
             </TouchableOpacity>
           </View>
 
           {/* social media links */}
           <View>
-            <Text className='text-gray-400 text-center mt-12'>
+            {/* <Text className='text-gray-400 text-center mt-12'>
               Or continue with
-            </Text>
+            </Text> */}
 
-            <View className='p-5 my-3 flex-row justify-around'>
+            {/* <View className='p-5 my-3 flex-row justify-around'>
               <View>
                 <TouchableOpacity
                   onPress={() => navigation.navigate('Home')}
-                  className='w-auto border border-purple-700 py-1 px-2'
+                  className='w-auto border border-purple-50 py-1 px-2'
                 >
-                  <Text className='text-purple-700'>
+                  <Text className='text-purple-50'>
                     <FontAwesome5 name='facebook' size={34} />
                   </Text>
                 </TouchableOpacity>
@@ -141,9 +138,9 @@ const Login = () => {
               <View>
                 <TouchableOpacity
                   onPress={() => navigation.navigate('Home')}
-                  className='w-auto border border-purple-700 py-1 px-2'
+                  className='w-auto border border-purple-50 py-1 px-2'
                 >
-                  <Text className='text-purple-700'>
+                  <Text className='text-purple-50'>
                     <FontAwesome5 name='github' size={34} />
                   </Text>
                 </TouchableOpacity>
@@ -151,9 +148,9 @@ const Login = () => {
               <View>
                 <TouchableOpacity
                   onPress={() => navigation.navigate('Home')}
-                  className='w-auto border border-purple-700 py-1 px-2'
+                  className='w-auto border border-purple-50 py-1 px-2'
                 >
-                  <Text className='text-purple-700'>
+                  <Text className='text-purple-50'>
                     <FontAwesome5 name='apple' size={34} />
                   </Text>
                 </TouchableOpacity>
@@ -161,21 +158,21 @@ const Login = () => {
               <View>
                 <TouchableOpacity
                   onPress={() => navigation.navigate('Home')}
-                  className='w-auto border border-purple-700 py-1 px-2'
+                  className='w-auto border border-purple-50 py-1 px-2'
                 >
-                  <Text className='text-purple-700'>
+                  <Text className='text-purple-50'>
                     <FontAwesome5 name='google' size={34} />
                   </Text>
                 </TouchableOpacity>
               </View>
-            </View>
+            </View> */}
 
-            <View className='flex-row justify-center'>
+            <View className='flex-row justify-center mt-5'>
               <TouchableOpacity>
                 <Text>Don't have an account? </Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-                <Text className='text-purple-700 font-bold'>Register</Text>
+                <Text className='text-purple-50 font-bold'>Register</Text>
               </TouchableOpacity>
             </View>
           </View>

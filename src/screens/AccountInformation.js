@@ -29,21 +29,21 @@ const AccountInformation = ({ navigation }) => {
         <View className='flex justify-between mt-5'>
           <TouchableOpacity
             onPress={() => navigation.navigate('Contact')}
-            className='mb-2 flex-row items-center  bg-white px-2 py-3'
+            className='mb-2 flex-row items-center  bg-white-50 px-2 py-3'
           >
             <FontAwesome5 name='phone-alt' size={24} color='#7e287e' />
             <Text className='ml-2'>+252 (0) 61 530 1507</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.navigate('Contact')}
-            className='mb-2 flex-row items-center  bg-white px-2 py-3'
+            className='mb-2 flex-row items-center  bg-white-50 px-2 py-3'
           >
             <FontAwesome5 name='facebook-messenger' size={24} color='#7e287e' />
             <Text className='ml-2'>@wadaagapp</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.navigate('Contact')}
-            className='mb-2 flex-row items-center  bg-white px-2 py-3'
+            className='mb-2 flex-row items-center  bg-white-50 px-2 py-3'
           >
             <FontAwesome5 name='envelope' size={24} color='#7e287e' />
             <Text className='ml-2'>info@wadaag.app</Text>

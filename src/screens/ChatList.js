@@ -1,10 +1,10 @@
 import { View, FlatList, TouchableOpacity } from 'react-native'
 import React, { useCallback, useEffect } from 'react'
 import ChatItem from '../components/ChatItem'
-import FlashMessage, { showMessage } from 'react-native-flash-message'
 import apiHook from '../api'
 import Spinner from 'react-native-loading-spinner-overlay'
 import { useFocusEffect } from '@react-navigation/native'
+import Toast from 'react-native-toast-message'
 
 const ChatList = ({ navigation }) => {
   const chatHistory = apiHook({
@@ -21,21 +21,16 @@ const ChatList = ({ navigation }) => {
 
   useEffect(() => {
     if (chatHistory?.isError) {
-      showMessage({
-        message: chatHistory?.error,
-        type: 'danger',
+      Toast.show({
+        type: 'error',
+        text1: chatHistory?.error,
       })
     }
   }, [chatHistory?.error])
 
   return (
     <View className='py-3'>
-      <FlashMessage
-        position='top'
-        style={{
-          alignItems: 'center',
-        }}
-      />
+      <Toast />
       <Spinner visible={chatHistory?.isLoading} />
 
       <FlatList
@@ -45,7 +40,7 @@ const ChatList = ({ navigation }) => {
             onPress={() =>
               navigation.navigate('Chat', { _id: item._id, name: item?.name })
             }
-            className='bg-white mb-0.5 px-5'
+            className='bg-white-50 mb-0.5 px-5'
           >
             <ChatItem item={item} />
           </TouchableOpacity>

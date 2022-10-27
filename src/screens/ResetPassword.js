@@ -42,7 +42,7 @@ const ResetPassword = () => {
               }}
               errors={errors}
               autoFocus={true}
-              className='bg-white p-2.5'
+              className='bg-white-50 p-2.5'
               name='password'
               placeholder='Password'
               textContentType='password'
@@ -64,7 +64,7 @@ const ResetPassword = () => {
                   value === watch().password || 'The passwords do not match',
               }}
               errors={errors}
-              className='bg-white p-2.5'
+              className='bg-white-50 p-2.5'
               name='confirmPassword'
               placeholder='Confirm password'
               textContentType='confirmPassword'
@@ -75,9 +75,9 @@ const ResetPassword = () => {
           <View className='my-2'>
             <TouchableOpacity
               onPress={handleSubmit(submitHandler)}
-              className='p-2.5 bg-purple-700'
+              className='p-2.5 bg-purple-50'
             >
-              <Text className='text-white uppercase text-center'>Reset</Text>
+              <Text className='text-white-50 uppercase text-center'>Reset</Text>
             </TouchableOpacity>
           </View>
         </View>

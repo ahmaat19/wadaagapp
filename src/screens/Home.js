@@ -10,6 +10,7 @@ import { GOOGLE_MAPS_API_KEY } from '@env'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { chatReducer, INITIAL_STATE } from '../chatReducer'
 import { useFocusEffect } from '@react-navigation/native'
+import Toast from 'react-native-toast-message'
 
 const Home = ({ navigation }) => {
   const [userInfo, setUserInfo] = useState(null)
@@ -127,6 +128,15 @@ const Home = ({ navigation }) => {
     pendingTrip?.refetch()
   }, [origin])
 
+  useEffect(() => {
+    if ((transactions?.isError, cancelTrip?.isError, pendingTrip?.isError)) {
+      Toast.show({
+        type: 'error',
+        text1: transactions?.error || cancelTrip?.error || pendingTrip?.error,
+      })
+    }
+  }, [transactions?.error, cancelTrip?.error, pendingTrip?.error])
+
   return (
     <SafeAreaView>
       {pendingTrip?.data?.status === 'pending' && (
@@ -134,10 +144,10 @@ const Home = ({ navigation }) => {
           <View className='justify-between flex-row top-10'>
             <TouchableOpacity
               onPress={() => navigation.navigate('ChatList')}
-              className='flex-row items-center border border-purple-700 shadow px-3 py-1 rounded-full'
+              className='flex-row items-center border border-purple-50 shadow px-3 py-1 rounded-full'
             >
               <FontAwesome5 name='comment' size={24} color='#7e287e' />
-              <Text className='ml-2 text-purple-700'>Chats</Text>
+              <Text className='ml-2 text-purple-50'>Chats</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -156,6 +166,7 @@ const Home = ({ navigation }) => {
           pendingTrip?.data?.status === 'pending' ? 'py-16' : 'pt-16'
         }`}
       >
+        <Toast />
         <Spinner
           visible={
             transactions?.isLoading ||
@@ -164,17 +175,17 @@ const Home = ({ navigation }) => {
           }
         />
 
-        {(transactions?.isError ||
+        {/* {(transactions?.isError ||
           pendingTrip?.isError ||
           cancelTrip?.isError) && (
-          <View className='items-center my-2 border border-purple-700 py-2'>
+          <View className='items-center my-2 border border-purple-50 py-2'>
             <Text className='text-red-500'>
               {transactions?.error || pendingTrip?.error || cancelTrip?.error}
             </Text>
           </View>
-        )}
+        )} */}
 
-        <Text className='font-bold text-md text-2xl text-purple-700 my-2'>
+        <Text className='font-bold text-md text-2xl text-purple-50 my-2'>
           {userInfo?.name},
         </Text>
         <Text
@@ -215,11 +226,11 @@ const Home = ({ navigation }) => {
         <View className='flex justify-between flex-row my-5'>
           <TouchableOpacity
             disabled={!origin}
-            className={`bg-white w-40 h-60 items-center ${
+            className={`bg-white-50 w-40 h-60 items-center ${
               !origin ? 'opacity-50' : 'opacity-100'
             } justify-center ${
               selected === 'riderOne'
-                ? 'border border-purple-700 shadow-2xl'
+                ? 'border border-purple-50 shadow-2xl'
                 : ''
             }`}
             onPress={() => setSelected('riderOne')}
@@ -239,11 +250,11 @@ const Home = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             disabled={!origin}
-            className={`bg-white w-40 h-60 items-center ${
+            className={`bg-white-50 w-40 h-60 items-center ${
               !origin ? 'opacity-50' : 'opacity-100'
             } justify-center ${
               selected === 'riderTwo'
-                ? 'border border-purple-700 shadow-2xl'
+                ? 'border border-purple-50 shadow-2xl'
                 : ''
             }`}
             onPress={() => setSelected('riderTwo')}

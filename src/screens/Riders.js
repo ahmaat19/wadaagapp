@@ -2,9 +2,9 @@ import { View, TouchableOpacity } from 'react-native'
 import React, { useEffect } from 'react'
 import apiHook from '../api'
 import RiderCard from '../components/RiderCard'
-import FlashMessage, { showMessage } from 'react-native-flash-message'
 import Spinner from 'react-native-loading-spinner-overlay'
 import { FlatList } from 'react-native-gesture-handler'
+import Toast from 'react-native-toast-message'
 
 const Riders = ({ navigation, route }) => {
   const searchNearRiders = apiHook({
@@ -15,9 +15,9 @@ const Riders = ({ navigation, route }) => {
 
   useEffect(() => {
     if (searchNearRiders?.isError) {
-      showMessage({
-        message: searchNearRiders?.error,
-        type: 'danger',
+      Toast.show({
+        type: 'error',
+        text1: searchNearRiders?.error,
       })
     }
   }, [searchNearRiders?.error])
@@ -39,12 +39,7 @@ const Riders = ({ navigation, route }) => {
 
   return (
     <>
-      <FlashMessage
-        position='top'
-        style={{
-          alignItems: 'center',
-        }}
-      />
+      <Toast />
 
       <View>
         <Spinner visible={searchNearRiders?.isLoading} />
@@ -59,7 +54,7 @@ const Riders = ({ navigation, route }) => {
                     name: item?.name,
                   })
                 }
-                className='bg-white mb-0.5 px-5'
+                className='bg-white-50 mb-0.5 px-5'
               >
                 <RiderCard item={item} />
               </TouchableOpacity>

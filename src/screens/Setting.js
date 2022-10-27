@@ -99,7 +99,7 @@ const Setting = ({ navigation }) => {
                 i?.screen ? navigation.navigate(i?.screen) : signOut()
               }
               key={idx}
-              className='bg-white mb-0.5 px-5'
+              className='bg-white-50 mb-0.5 px-5'
             >
               <ListItem item={i} />
             </TouchableOpacity>
