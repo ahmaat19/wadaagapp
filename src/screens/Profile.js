@@ -140,10 +140,15 @@ const Profile = () => {
           <View className='mx-5 my-auto'>
             <View className='rounded-full items-center'>
               <TouchableOpacity>
-                <Image
-                  source={{ url: image }}
-                  className='w-40 h-40 rounded-full mb-3'
-                />
+                {image && (
+                  <Image
+                    source={{
+                      uri: image,
+                    }}
+                    className='w-40 h-40 rounded-full mb-3'
+                  />
+                )}
+
                 <Text className='text-center'>Change profile picture</Text>
               </TouchableOpacity>
 

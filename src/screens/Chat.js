@@ -1,4 +1,4 @@
-import { View, KeyboardAvoidingView, Platform, Dimensions } from 'react-native'
+import { View, Dimensions } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import * as SecureStore from 'expo-secure-store'
 
@@ -92,9 +92,6 @@ const Chat = ({ navigation, route }) => {
               avatar: userInfo?.avatar,
             }}
           />
-          {Platform.OS === 'android' && (
-            <KeyboardAvoidingView behavior='padding' />
-          )}
         </View>
       )}
     </>

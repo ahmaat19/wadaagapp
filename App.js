@@ -76,9 +76,9 @@ export const MyTabs = ({ navigation }) => {
 
           if (route.name === 'Home') {
             iconName = 'home'
-          } else if (route.name === 'Setting') {
+          } else if (route.name === 'Settings') {
             iconName = 'cog'
-          } else if (route.name === 'ChatList') {
+          } else if (route.name === 'Chats') {
             iconName = 'facebook-messenger'
           }
 
@@ -95,11 +95,11 @@ export const MyTabs = ({ navigation }) => {
           headerShown: false,
         }}
       />
-      <Tab.Screen name='Setting' component={Setting} />
+      <Tab.Screen name='Settings' component={Setting} />
       {userInfo?.userType === 'rider' && (
         <Tab.Screen
           options={{ headerShown: true, headerTitle: 'Chatting History' }}
-          name='ChatList'
+          name='Chats'
           component={ChatList}
         />
       )}
@@ -210,7 +210,7 @@ export default function App() {
         <NavigationContainer>
           <QueryClientProvider client={queryClient}>
             <Stack.Navigator
-            // initialRouteName='Chat'
+            // initialRouteName='Map'
             >
               {state.isLoading ? (
                 <Stack.Screen
@@ -250,7 +250,7 @@ export default function App() {
                   />
                   <Stack.Screen
                     options={{ headerShown: true }}
-                    name='ChatList'
+                    name='Chats'
                     component={ChatList}
                   />
                   <Stack.Screen

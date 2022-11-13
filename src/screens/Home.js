@@ -143,7 +143,7 @@ const Home = ({ navigation }) => {
         <View className='bg-green-500 shadow shadow-green-300 z-20 absolute w-screen px-5 pt-3 pb- h-24'>
           <View className='justify-between flex-row top-10'>
             <TouchableOpacity
-              onPress={() => navigation.navigate('ChatList')}
+              onPress={() => navigation.navigate('Chats')}
               className='flex-row items-center border border-purple-50 shadow px-3 py-1 rounded-full'
             >
               <FontAwesome5 name='comment' size={24} color='#7e287e' />
@@ -226,7 +226,7 @@ const Home = ({ navigation }) => {
         <View className='flex justify-between flex-row my-5'>
           <TouchableOpacity
             disabled={!origin}
-            className={`bg-white-50 w-40 h-60 items-center ${
+            className={`bg-white-50 w-36 h-60 items-center ${
               !origin ? 'opacity-50' : 'opacity-100'
             } justify-center ${
               selected === 'riderOne'
@@ -236,11 +236,11 @@ const Home = ({ navigation }) => {
             onPress={() => setSelected('riderOne')}
           >
             <Image
-              source={require('../../assets/riderone.jpeg')}
-              className='w-32 h-32'
+              source={require('../../assets/riderone.png')}
+              className='w-24 h-24'
             />
             <View className='mt-3'>
-              <Text className='text-xl'>Rider One</Text>
+              <Text className='text-lg'>Rider One</Text>
               <FontAwesome5
                 name='arrow-circle-right'
                 size={24}
@@ -250,7 +250,7 @@ const Home = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             disabled={!origin}
-            className={`bg-white-50 w-40 h-60 items-center ${
+            className={`bg-white-50 w-36 h-60 items-center ${
               !origin ? 'opacity-50' : 'opacity-100'
             } justify-center ${
               selected === 'riderTwo'
@@ -260,11 +260,11 @@ const Home = ({ navigation }) => {
             onPress={() => setSelected('riderTwo')}
           >
             <Image
-              source={require('../../assets/ridertwo.webp')}
-              className='w-28 h-28'
+              source={require('../../assets/ridertwo.png')}
+              className='w-24 h-24'
             />
             <View className='mt-3'>
-              <Text className='text-xl'>Rider Two</Text>
+              <Text className='text-lg'>Rider Two</Text>
 
               <FontAwesome5
                 name='arrow-circle-right'

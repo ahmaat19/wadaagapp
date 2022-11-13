@@ -15,7 +15,7 @@ const MapComp = ({
   useEffect(() => {
     if (!origin || !destination) return
     mapRef.current.fitToSuppliedMarkers(['origin', 'destination'], {
-      edgePadding: { top: 100, right: 100, left: 100, bottom: 100 },
+      edgePadding: { top: 60, right: 60, left: 60, bottom: 60 },
     })
   }, [origin, destination])
 

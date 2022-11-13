@@ -2,7 +2,7 @@
   "expo": {
     "name": "Wadaag",
     "slug": "wadaag",
-    "version": "1.0.0",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -20,7 +20,12 @@
     },
     "android": {
       "package": "com.wadaag",
-      "versionCode": 1,
+      "config": {
+        "googleMaps": {
+          "apiKey": "********************************"
+        }
+      },
+      "versionCode": 5,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#7e287e"

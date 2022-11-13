@@ -110,7 +110,9 @@ const Map = ({ navigation, route }) => {
 
   return (
     <>
-      <Toast />
+      <View className='z-10'>
+        <Toast />
+      </View>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}
