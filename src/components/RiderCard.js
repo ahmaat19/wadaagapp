@@ -12,7 +12,7 @@ const RiderCard = ({ item }) => {
         />
         <View>
           <Text className='ml-2 font-bold'>{item?.name}</Text>
-          <Text className='ml-2'>{item?.mobileNumber}</Text>
+          <Text className='ml-2'>{item?.mobile}</Text>
           <Text className='ml-2'>
             {item?.destination?.description?.slice(0, 26)}
           </Text>

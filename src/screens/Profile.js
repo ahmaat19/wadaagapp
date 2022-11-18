@@ -104,20 +104,22 @@ const Profile = () => {
   useEffect(() => {
     if (getProfile?.data) {
       setValue('name', getProfile?.data?.name)
-      setUserType(getProfile?.data?.userType)
+      setValue('address', getProfile?.data?.address)
+      setValue('mobile', getProfile?.data?.mobile)
+      setValue('bio', getProfile?.data?.bio)
+      setUserType(getProfile?.data?.role)
       setImage(getProfile?.data?.image)
     }
   }, [getProfile?.data])
 
   const submitHandler = (data) => {
-    console.log(data)
-
     putProfile
       .mutateAsync(data)
       .then((res) => {
         SecureStore.getItemAsync('userInfo')
           .then((obj) => {
             const parsed = JSON.parse(obj)
+            console.log(res)
             parsed.name = res.name
             SecureStore.setItemAsync('userInfo', JSON.stringify(parsed))
               .then((v) => v)
@@ -177,6 +179,47 @@ const Profile = () => {
                 name='name'
                 autoFocus={true}
                 placeholder='Name'
+              />
+            </View>
+
+            <View className='my-2'>
+              <CustomInput
+                control={control}
+                rules={{
+                  required: 'Mobile is required',
+                }}
+                errors={errors}
+                className='bg-white-50 p-2.5'
+                name='mobile'
+                autoFocus={true}
+                placeholder='Mobile'
+                editable={false}
+              />
+            </View>
+            <View className='my-2'>
+              <CustomInput
+                control={control}
+                rules={{
+                  required: 'Address is required',
+                }}
+                errors={errors}
+                className='bg-white-50 p-2.5'
+                name='address'
+                autoFocus={true}
+                placeholder='Address'
+              />
+            </View>
+            <View className='my-2'>
+              <CustomInput
+                control={control}
+                rules={{
+                  required: 'Bio is required',
+                }}
+                errors={errors}
+                className='bg-white-50 p-2.5'
+                name='bio'
+                autoFocus={true}
+                placeholder='Bio'
               />
             </View>
 

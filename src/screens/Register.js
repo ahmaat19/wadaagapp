@@ -14,7 +14,6 @@ import { useForm } from 'react-hook-form'
 import apiHook from '../api'
 import Spinner from 'react-native-loading-spinner-overlay'
 import { Picker } from '@react-native-picker/picker'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { ScrollView } from 'react-native-gesture-handler'
 import Toast from 'react-native-toast-message'
 
@@ -45,10 +44,10 @@ const Register = () => {
 
   const submitHandler = (data) => {
     register
-      .mutateAsync({ ...data, selected: userType })
+      .mutateAsync({ ...data, selected: userType, platform: 'mobile' })
       .then((res) => {
         navigation.navigate('OTP', {
-          mobileNumber: res.mobileNumber,
+          mobile: res.mobile,
           name: res.name,
           _id: res._id,
           otp: res.otp,
@@ -118,7 +117,7 @@ const Register = () => {
               }}
               errors={errors}
               className='bg-white-50 p-2.5'
-              name='mobileNumber'
+              name='mobile'
               placeholder='Mobile number'
               keyboardType='number-pad'
               textContentType='number-pad'
@@ -154,6 +153,16 @@ const Register = () => {
               </View>
             </>
           )}
+
+          <View className='my-2'>
+            <CustomInput
+              control={control}
+              errors={errors}
+              className='bg-white-50 p-2.5'
+              name='referral'
+              placeholder='Referral code'
+            />
+          </View>
 
           <View className='my-2'>
             <TouchableOpacity

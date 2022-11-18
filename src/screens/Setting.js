@@ -34,7 +34,7 @@ const Setting = ({ navigation }) => {
         },
       ],
     },
-    userInfo?.userType === 'rider' && {
+    userInfo?.role === 'RIDER' && {
       label: 'Payments',
       info: [
         {
@@ -84,9 +84,6 @@ const Setting = ({ navigation }) => {
     },
   ]
 
-  // if (userInfo?.userType === 'admin') {
-  //   items = items?.filter((item) => delete item.label === 'Payments' && item)
-  // }
 
   return (
     <ScrollView className='py-3'>

@@ -1,7 +1,9 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import MapView, { Marker } from 'react-native-maps'
 import MapViewDirections from 'react-native-maps-directions'
-import { GOOGLE_MAPS_API_KEY } from '@env'
+// import { GOOGLE_MAPS_API_KEY } from '@env'
+
+const GOOGLE_MAPS_API_KEY = 'AIzaSyAC7lTJhx1XpbmPwyMVn7uWX3_fRHyCCz4'
 
 const MapComp = ({
   origin,
@@ -44,7 +46,6 @@ const MapComp = ({
     <MapView
       ref={mapRef}
       className='h-full'
-      mapType='mutedStandard'
       initialRegion={{
         latitude: origin?.location?.lat,
         longitude: origin?.location?.lng,

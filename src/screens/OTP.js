@@ -19,7 +19,7 @@ const OTP = ({ route }) => {
   const verifyOtp = apiHook({
     key: 'verifyOtp',
     method: 'POST',
-    url: 'auth/login/otp',
+    url: 'auth/otpverification',
   })?.post
 
   useEffect(() => {
@@ -72,7 +72,7 @@ const OTP = ({ route }) => {
           </Text>
           <Text className='text-center my-2'>
             {`We've send an SMS with an OTP code to your phone`}{' '}
-            <Text className='font-bold'>{route.params?.mobileNumber}</Text>
+            <Text className='font-bold'>{route.params?.mobile}</Text>
           </Text>
 
           <View className='my-2 flex-row'>

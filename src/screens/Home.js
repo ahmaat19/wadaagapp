@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native'
+import { View, Text, TouchableOpacity, Image, Linking } from 'react-native'
 import React, { useCallback, useEffect, useReducer, useState } from 'react'
 import { FontAwesome5 } from '@expo/vector-icons'
 import * as SecureStore from 'expo-secure-store'
@@ -6,7 +6,7 @@ import apiHook from '../api'
 import Spinner from 'react-native-loading-spinner-overlay'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import * as Location from 'expo-location'
-import { GOOGLE_MAPS_API_KEY } from '@env'
+import { GOOGLE_MAPS_API_KEY } from '../utils/key'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { chatReducer, INITIAL_STATE } from '../chatReducer'
 import { useFocusEffect } from '@react-navigation/native'
@@ -16,6 +16,11 @@ const Home = ({ navigation }) => {
   const [userInfo, setUserInfo] = useState(null)
   const [selected, setSelected] = useState(null)
   const [origin, setOrigin] = useState(null)
+
+  // useEffect(() => {
+  //   console.log(process.env)
+  //   console.log(GM)
+  // }, [])
 
   const [state, dispatch] = useReducer(chatReducer, INITIAL_STATE)
 
@@ -75,33 +80,35 @@ const Home = ({ navigation }) => {
   // )
 
   useEffect(() => {
-    if (userInfo?.userType === 'admin') {
-      setSelected(null)
-      return navigation.navigate('Admin')
-    }
-
-    if (userInfo?.userType === 'driver') {
+    if (userInfo?.role === 'DRIVER') {
       setSelected(null)
       return navigation.navigate('Driver')
-    }
-
-    if (Number(transactions?.data?.expirationDays) <= 0) {
-      setSelected(null)
-      return navigation.navigate('Subscription')
     }
   }, [selected, userInfo])
 
   const transactions = apiHook({
     key: 'register',
     method: 'GET',
-    url: 'reports/payments/transactions',
+    url: 'payment-transactions',
   })?.get
 
   const pendingTrip = apiHook({
     key: 'pending-trip',
     method: 'GET',
-    url: 'rides/pending',
+    url: 'trips/pending',
   })?.get
+
+  const cancelTrip = apiHook({
+    key: 'trip-cancel',
+    method: 'PUT',
+    url: `trips/${pendingTrip?.data?._id}`,
+  })?.update
+
+  const completeTrip = apiHook({
+    key: 'trip-complete',
+    method: 'PUT',
+    url: `trips/${pendingTrip?.data?._id}`,
+  })?.update
 
   useFocusEffect(
     useCallback(() => {
@@ -110,18 +117,12 @@ const Home = ({ navigation }) => {
     }, [])
   )
 
-  const cancelTrip = apiHook({
-    key: 'trip-cancel',
-    method: 'DELETE',
-    url: `rides/${pendingTrip?.data?._id}?status=cancelled`,
-  })?.deleteObj
-
   useEffect(() => {
-    if (cancelTrip?.isSuccess) {
+    if (cancelTrip?.isSuccess || completeTrip?.isSuccess) {
       transactions?.refetch()
       pendingTrip?.refetch()
     }
-  }, [cancelTrip?.isSuccess])
+  }, [cancelTrip?.isSuccess, completeTrip?.isSuccess])
 
   useEffect(() => {
     transactions?.refetch()
@@ -129,33 +130,63 @@ const Home = ({ navigation }) => {
   }, [origin])
 
   useEffect(() => {
-    if ((transactions?.isError, cancelTrip?.isError, pendingTrip?.isError)) {
+    if (
+      (transactions?.isError,
+      cancelTrip?.isError,
+      pendingTrip?.isError,
+      completeTrip?.isError)
+    ) {
       Toast.show({
         type: 'error',
-        text1: transactions?.error || cancelTrip?.error || pendingTrip?.error,
+        text1:
+          transactions?.error ||
+          cancelTrip?.error ||
+          pendingTrip?.error ||
+          completeTrip?.error,
       })
     }
-  }, [transactions?.error, cancelTrip?.error, pendingTrip?.error])
+  }, [
+    transactions?.error,
+    cancelTrip?.error,
+    pendingTrip?.error,
+    completeTrip?.error,
+  ])
 
+  const _pressCall = () => {
+    const url = 'tel://*789*638744*1#'
+    Linking.openURL(url)
+      .then((r) => console.log(r))
+      .catch((e) => console.log(e))
+  }
   return (
     <SafeAreaView>
       {pendingTrip?.data?.status === 'pending' && (
         <View className='bg-green-500 shadow shadow-green-300 z-20 absolute w-screen px-5 pt-3 pb- h-24'>
           <View className='justify-between flex-row top-10'>
             <TouchableOpacity
-              onPress={() => navigation.navigate('Chats')}
+              onPress={() =>
+                completeTrip?.mutateAsync({
+                  ...pendingTrip?.data,
+                  actionStatus: 'completed',
+                })
+              }
               className='flex-row items-center border border-purple-50 shadow px-3 py-1 rounded-full'
             >
-              <FontAwesome5 name='comment' size={24} color='#7e287e' />
-              <Text className='ml-2 text-purple-50'>Chats</Text>
+              <FontAwesome5 name='check-circle' size={24} color='#7e287e' />
+              <Text className='ml-2 text-purple-50'>Complete Trip</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => cancelTrip?.mutateAsync(pendingTrip?.data)}
+              onPress={() =>
+                cancelTrip?.mutateAsync({
+                  ...pendingTrip?.data,
+                  actionStatus: 'cancelled',
+                })
+              }
               className='flex-row items-center border border-red-500 shadow px-3 py-1 rounded-full'
             >
               <FontAwesome5 name='times-circle' size={24} color='#ef4444' />
-              <Text className='ml-2 text-red-500'>Cancel Ride</Text>
+              <Text className='ml-2 text-red-500'>Cancel Trip</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -184,7 +215,6 @@ const Home = ({ navigation }) => {
             </Text>
           </View>
         )} */}
-
         <Text className='font-bold text-md text-2xl text-purple-50 my-2'>
           {userInfo?.name},
         </Text>
@@ -193,8 +223,20 @@ const Home = ({ navigation }) => {
             Number(transactions?.data?.expirationDays) <= 0 && 'text-red-500'
           }`}
         >
-          It's about to expire in {transactions?.data?.expirationDays} days.
+          It's about to expire in {transactions?.data?.expirationDays || 0}{' '}
+          days.
         </Text>
+
+        {Number(transactions?.data?.expirationDays) < 1 && (
+          <TouchableOpacity
+            onPress={_pressCall}
+            className='items-center border border-red-500 shadow px-3 py-2'
+          >
+            <Text className='text-red-500 uppercase'>
+              Pay Now (*789*638744*1#)
+            </Text>
+          </TouchableOpacity>
+        )}
 
         <View className='my-4'>
           <GooglePlacesAutocomplete

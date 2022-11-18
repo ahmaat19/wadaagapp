@@ -8,9 +8,9 @@ import Toast from 'react-native-toast-message'
 
 const Riders = ({ navigation, route }) => {
   const searchNearRiders = apiHook({
-    key: 'near-riders',
+    key: 'near',
     method: 'POST',
-    url: 'rides/near-riders',
+    url: 'trips/near',
   })?.post
 
   useEffect(() => {
@@ -25,8 +25,8 @@ const Riders = ({ navigation, route }) => {
   useEffect(() => {
     searchNearRiders
       ?.mutateAsync({
-        originLatLng: route?.params?.originLatLng,
-        destinationLatLng: route?.params?.destinationLatLng,
+        origin: route?.params?.origin,
+        destination: route?.params?.destination,
       })
       .then((res) => {
         return res
@@ -35,7 +35,7 @@ const Riders = ({ navigation, route }) => {
         console.log(err)
         return err
       })
-  }, [route?.params?.originLatLng, route?.params?.destinationLatLng])
+  }, [route?.params?.origin, route?.params?.destination])
 
   return (
     <>

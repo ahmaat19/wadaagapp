@@ -40,16 +40,16 @@ const Login = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      // mobileNumber: '615301507',
+      // mobile: '615301507',
     },
   })
 
   const submitHandler = (data) => {
     login
-      .mutateAsync(data)
+      .mutateAsync({ ...data, platform: 'mobile' })
       .then((res) => {
         navigation.navigate('OTP', {
-          mobileNumber: res.mobileNumber,
+          mobile: res.mobile,
           name: res.name,
           _id: res._id,
           otp: res.otp,
@@ -87,7 +87,7 @@ const Login = () => {
               }}
               errors={errors}
               className='bg-white-50 p-2.5'
-              name='mobileNumber'
+              name='mobile'
               autoFocus={true}
               placeholder='Mobile number'
               keyboardType='number-pad'

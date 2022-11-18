@@ -24,14 +24,12 @@ import Transaction from './src/screens/Transaction'
 import Contact from './src/screens/Contact'
 import ChatList from './src/screens/ChatList'
 import Chat from './src/screens/Chat'
-import Subscription from './src/screens/Subscription'
 
 import { AuthContext } from './src/AuthContext'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { FontAwesome5 } from '@expo/vector-icons'
 import OTP from './src/screens/OTP'
 import Driver from './src/screens/Driver'
-import Admin from './src/screens/Admin'
 import Map from './src/screens/Map'
 import Riders from './src/screens/Riders'
 
@@ -40,7 +38,6 @@ import Riders from './src/screens/Riders'
 const queryClient = new QueryClient()
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
-const user = 'ahmed'
 
 export const MyTabs = ({ navigation }) => {
   const [userInfo, setUserInfo] = useState(null)
@@ -58,10 +55,7 @@ export const MyTabs = ({ navigation }) => {
       .then((data) => {
         const parsed = JSON.parse(data.toString())
 
-        if (parsed.userType === 'admin') {
-          navigation.navigate('Admin')
-        }
-        if (parsed.userType === 'driver') {
+        if (parsed.role === 'DRIVER') {
           navigation.navigate('Driver')
         }
       })
@@ -96,7 +90,7 @@ export const MyTabs = ({ navigation }) => {
         }}
       />
       <Tab.Screen name='Settings' component={Setting} />
-      {userInfo?.userType === 'rider' && (
+      {userInfo?.role === 'RIDER' && (
         <Tab.Screen
           options={{ headerShown: true, headerTitle: 'Chatting History' }}
           name='Chats'
@@ -269,24 +263,7 @@ export default function App() {
                     name='Driver'
                     component={Driver}
                   />
-                  <Stack.Screen
-                    options={{
-                      headerShown: true,
-                      headerLeft: false,
-                      headerTitle: 'Admin',
-                    }}
-                    name='Admin'
-                    component={Admin}
-                  />
-                  <Stack.Screen
-                    options={{
-                      headerShown: true,
-                      headerLeft: false,
-                      headerTitle: 'Subscription',
-                    }}
-                    name='Subscription'
-                    component={Subscription}
-                  />
+
                   <Stack.Screen
                     options={{
                       headerShown: false,

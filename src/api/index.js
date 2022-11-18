@@ -17,7 +17,7 @@ export default function apiHook({ key, method, url }) {
       })
       return { get }
 
-    case 'UPDATE':
+    case 'PUT':
       const update = useMutation((obj) => axiosApi(method, url, obj), {
         retry: 0,
         onSuccess: async () => await queryClient.invalidateQueries([key]),

@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react'
 import MapComp from '../components/MapComp'
 import Spinner from 'react-native-loading-spinner-overlay'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
-import { GOOGLE_MAPS_API_KEY } from '@env'
+import { GOOGLE_MAPS_API_KEY } from '../utils/key'
 import { useForm } from 'react-hook-form'
 import CustomInput from '../components/CustomInput'
 import { FontAwesome5 } from '@expo/vector-icons'
@@ -32,15 +32,15 @@ const Map = ({ navigation, route }) => {
   })
 
   const startTrip = apiHook({
-    key: 'trip',
+    key: 'trips',
     method: 'POST',
-    url: 'rides',
+    url: 'trips',
   })?.post
 
   const searchNearRiders = apiHook({
-    key: 'near-riders',
+    key: 'near',
     method: 'POST',
-    url: 'rides/near-riders',
+    url: 'trips/near',
   })?.post
 
   useEffect(() => {
@@ -89,16 +89,16 @@ const Map = ({ navigation, route }) => {
     }
 
     if (route?.params?.selected === 'riderTwo') {
-      const originLatLng = `${route?.params?.origin?.location?.lat},${route?.params?.origin?.location?.lng}`
-      const destinationLatLng = `${destination?.location?.lat},${destination?.location?.lng}`
-
       searchNearRiders
         ?.mutateAsync({
-          originLatLng: originLatLng,
-          destinationLatLng: destinationLatLng,
+          origin: route?.params?.origin,
+          destination,
         })
         .then((res) => {
-          navigation.navigate('Riders', { originLatLng, destinationLatLng })
+          navigation.navigate('Riders', {
+            origin: route?.params?.origin,
+            destination,
+          })
           // return res
         })
         .catch((err) => {

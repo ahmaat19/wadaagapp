@@ -7,7 +7,7 @@ const AccountInformation = ({ navigation }) => {
   const user = {
     name: 'Ahmed Ibrahim',
     email: 'info@ahmedibra.com',
-    mobileNumber: '615301507',
+    mobile: '615301507',
     role: 'DRIVER',
     image: 'https://github.com/ahmaat19.png',
   }
