@@ -17,7 +17,7 @@ const DriverCard = ({ item }) => {
         </Text>
         <Text>
           <FontAwesome5 name='clock' size={14} />
-          <Text> {moment(item?.createdAt).format('MMM Do YY')}</Text>
+          <Text> {moment(item?.createdAt).format('MMM Do YY HH:mm')}</Text>
         </Text>
       </View>
     </View>

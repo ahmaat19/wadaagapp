@@ -10,7 +10,7 @@ const Transaction = () => {
   const transactions = apiHook({
     key: 'register',
     method: 'GET',
-    url: 'payment-transactions',
+    url: 'payments',
   })?.get
 
   useFocusEffect(

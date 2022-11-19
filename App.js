@@ -1,4 +1,8 @@
-import { NavigationContainer, useFocusEffect } from '@react-navigation/native'
+import {
+  NavigationContainer,
+  useFocusEffect,
+  useNavigation,
+} from '@react-navigation/native'
 import { StatusBar } from 'expo-status-bar'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -32,6 +36,7 @@ import OTP from './src/screens/OTP'
 import Driver from './src/screens/Driver'
 import Map from './src/screens/Map'
 import Riders from './src/screens/Riders'
+import { Button, Text } from 'react-native'
 
 // import { io } from 'socket.io-client'
 
@@ -258,7 +263,6 @@ export default function App() {
                   <Stack.Screen
                     options={{
                       headerShown: true,
-                      headerLeft: false,
                     }}
                     name='Driver'
                     component={Driver}

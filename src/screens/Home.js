@@ -82,14 +82,14 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     if (userInfo?.role === 'DRIVER') {
       setSelected(null)
-      return navigation.navigate('Driver')
+      return navigation.replace('Driver')
     }
   }, [selected, userInfo])
 
   const transactions = apiHook({
     key: 'register',
     method: 'GET',
-    url: 'payment-transactions',
+    url: 'payments',
   })?.get
 
   const pendingTrip = apiHook({

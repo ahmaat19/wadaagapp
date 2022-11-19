@@ -3,7 +3,7 @@ import MapView, { Marker } from 'react-native-maps'
 import MapViewDirections from 'react-native-maps-directions'
 // import { GOOGLE_MAPS_API_KEY } from '@env'
 
-const GOOGLE_MAPS_API_KEY = 'AIzaSyAC7lTJhx1XpbmPwyMVn7uWX3_fRHyCCz4'
+const GOOGLE_MAPS_API_KEY = '******'
 
 const MapComp = ({
   origin,
