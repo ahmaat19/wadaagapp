@@ -5,22 +5,18 @@ import * as SecureStore from 'expo-secure-store'
 import apiHook from '../api'
 import Spinner from 'react-native-loading-spinner-overlay'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
-import * as Location from 'expo-location'
 import { GOOGLE_MAPS_API_KEY } from '../utils/key'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { chatReducer, INITIAL_STATE } from '../chatReducer'
 import { useFocusEffect } from '@react-navigation/native'
 import Toast from 'react-native-toast-message'
+import * as Location from 'expo-location'
 
 const Home = ({ navigation }) => {
   const [userInfo, setUserInfo] = useState(null)
   const [selected, setSelected] = useState(null)
   const [origin, setOrigin] = useState(null)
-
-  // useEffect(() => {
-  //   console.log(process.env)
-  //   console.log(GM)
-  // }, [])
+  const [currentLocation, setCurrentLocation] = useState(null)
 
   const [state, dispatch] = useReducer(chatReducer, INITIAL_STATE)
 
@@ -29,8 +25,6 @@ const Home = ({ navigation }) => {
       console.log('Found messages')
     }
   }, [state])
-
-  const [location, setLocation] = useState(null)
 
   useEffect(() => {
     if (selected && origin) {
@@ -42,42 +36,10 @@ const Home = ({ navigation }) => {
   }, [selected, origin])
 
   useEffect(() => {
-    ;(async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync()
-      if (status !== 'granted') {
-        console.log('Permission to access location was denied')
-        return
-      }
-
-      let location = await Location.getCurrentPositionAsync({})
-      setLocation(location.coords)
-    })()
-  }, [])
-
-  useEffect(() => {
-    ;(async () => {
-      try {
-        let result = await Location.reverseGeocodeAsync(location)
-        setValue('currentLocation', `${result[0]?.name}, ${result[0]?.city}`)
-      } catch (e) {
-        return e
-      }
-    })()
-  }, [location])
-
-  useEffect(() => {
     SecureStore.getItemAsync('userInfo')
       .then((res) => setUserInfo(JSON.parse(res)))
       .catch((err) => console.log(err))
   }, [])
-
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     SecureStore.getItemAsync('userInfo')
-  //       .then((res) => setUserInfo(JSON.parse(res)))
-  //       .catch((err) => console.log(err))
-  //   }, [])
-  // )
 
   useEffect(() => {
     if (userInfo?.role === 'DRIVER') {
@@ -110,10 +72,60 @@ const Home = ({ navigation }) => {
     url: `trips/${pendingTrip?.data?._id}`,
   })?.update
 
+  const updateTrip = apiHook({
+    key: 'trip-update',
+    method: 'PUT',
+    url: `trips/location/${pendingTrip?.data?._id}`,
+  })?.update
+
+  // updating the trip based on the current position
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const result = await Location.reverseGeocodeAsync(currentLocation)
+        const obj = {
+          description: `${result[0]?.name}, ${result[0]?.city}, ${result[0]?.country}`,
+          location: {
+            lat: currentLocation?.latitude,
+            lng: currentLocation?.longitude,
+          },
+        }
+        if (pendingTrip?.data?.status === 'pending') {
+          updateTrip?.mutateAsync(obj)
+        }
+      } catch (e) {
+        return e
+      }
+    })()
+  }, [currentLocation])
+
+  // watch position changes
+  useEffect(() => {
+    ;(() => {
+      Location.watchPositionAsync(
+        {
+          accuracy: Location.Accuracy.High,
+          distanceInterval: 1,
+          timeInterval: 3000,
+        },
+        ({ coords }) => {
+          setCurrentLocation(coords)
+        }
+      )
+        .then((locationWatcher) => {
+          pendingTrip?.data?.status !== 'pending' && locationWatcher.remove()
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    })()
+  }, [])
+
   useFocusEffect(
     useCallback(() => {
       transactions?.refetch()
       pendingTrip?.refetch()
+      setSelected(null)
     }, [])
   )
 
@@ -153,7 +165,7 @@ const Home = ({ navigation }) => {
   ])
 
   const _pressCall = () => {
-    const url = 'tel://*789*638744*1#'
+    const url = 'tel//:*789*638744*1%23'
     Linking.openURL(url)
       .then((r) => console.log(r))
       .catch((e) => console.log(e))

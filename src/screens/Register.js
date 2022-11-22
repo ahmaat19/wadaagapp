@@ -20,6 +20,7 @@ import Toast from 'react-native-toast-message'
 const Register = () => {
   const navigation = useNavigation()
   const [userType, setUserType] = useState('rider')
+  const [district, setDistrict] = useState('waberi')
 
   const register = apiHook({
     key: 'register',
@@ -44,7 +45,12 @@ const Register = () => {
 
   const submitHandler = (data) => {
     register
-      .mutateAsync({ ...data, selected: userType, platform: 'mobile' })
+      .mutateAsync({
+        ...data,
+        selected: userType,
+        district,
+        platform: 'mobile',
+      })
       .then((res) => {
         navigation.navigate('OTP', {
           mobile: res.mobile,
@@ -58,6 +64,28 @@ const Register = () => {
       })
   }
 
+  const districts = [
+    { label: 'Ceelasha Biyaha', value: 'Ceelasha Biyaha' },
+    { label: 'Grasbaaleey', value: 'Grasbaaleey' },
+    { label: 'Kaxda', value: 'Kaxda' },
+    { label: 'Dayniile', value: 'Dayniile' },
+    { label: 'Dharkeynleey', value: 'Dharkeynleey' },
+    { label: 'Wadajir', value: 'Wadajir' },
+    { label: 'Waberi', value: 'Waberi' },
+    { label: 'Hodan', value: 'Hodan' },
+    { label: 'Hawlwadaag', value: 'Hawlwadaag' },
+    { label: 'Xamar Jajab', value: 'Xamar Jajab' },
+    { label: 'Wartanabada', value: 'Wartanabada' },
+    { label: 'Xamar Weyne', value: 'Xamar Weyne' },
+    { label: 'Yaqshid', value: 'Yaqshid' },
+    { label: 'Boondheere', value: 'Boondheere' },
+    { label: 'Cabdicasiis', value: 'Cabdicasiis' },
+    { label: 'Shibis', value: 'Shibis' },
+    { label: 'Shangaani', value: 'Shangaani' },
+    { label: 'Hiliwaa', value: 'Hiliwaa' },
+    { label: 'Kaaraan', value: 'Kaaraan' },
+  ]
+
   return (
     <ScrollView>
       <KeyboardAvoidWrapper>
@@ -68,6 +96,7 @@ const Register = () => {
 
           <View className='bg-white-50'>
             <Picker
+              itemStyle={{ height: 120 }}
               selectedValue={userType}
               onValueChange={(itemValue) => setUserType(itemValue)}
             >
@@ -118,7 +147,7 @@ const Register = () => {
               errors={errors}
               className='bg-white-50 p-2.5'
               name='mobile'
-              placeholder='Mobile number'
+              placeholder='61*******'
               keyboardType='number-pad'
               textContentType='number-pad'
             />
@@ -154,14 +183,16 @@ const Register = () => {
             </>
           )}
 
-          <View className='my-2'>
-            <CustomInput
-              control={control}
-              errors={errors}
-              className='bg-white-50 p-2.5'
-              name='referral'
-              placeholder='Referral code'
-            />
+          <View className='bg-white-50'>
+            <Picker
+              itemStyle={{ height: 120 }}
+              selectedValue={district}
+              onValueChange={(itemValue) => setDistrict(itemValue)}
+            >
+              {districts?.map((d, i) => (
+                <Picker.Item key={i} label={d.label} value={d.value} />
+              ))}
+            </Picker>
           </View>
 
           <View className='my-2'>

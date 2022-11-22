@@ -18,8 +18,9 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.wadaag",
+      "buildNumber": "1",
       "config": {
-        "googleMapsApiKey": "******"
+        "googleMapsApiKey": "*****"
       },
       "infoPlist": {
         "UIBackgroundModes": ["location", "fetch"],
@@ -32,7 +33,7 @@
       "package": "com.wadaag",
       "config": {
         "googleMaps": {
-          "apiKey": "******"
+          "apiKey": "*****"
         }
       },
       "versionCode": 7,

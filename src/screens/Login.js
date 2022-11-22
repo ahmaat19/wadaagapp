@@ -89,7 +89,7 @@ const Login = () => {
               className='bg-white-50 p-2.5'
               name='mobile'
               autoFocus={true}
-              placeholder='Mobile number'
+              placeholder='61*******'
               keyboardType='number-pad'
               textContentType='number-pad'
             />

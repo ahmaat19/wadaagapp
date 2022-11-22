@@ -46,12 +46,11 @@ const Driver = () => {
   }, [trips?.isError, transactions?.error])
 
   const _pressCall = () => {
-    const url = 'tel://*789*638744*1#'
+    const url = 'tel//:*789*638744*1%23'
     Linking.openURL(url)
       .then((r) => console.log(r))
       .catch((e) => console.log(e))
   }
-
   return (
     <>
       <View className='pb-3'>

@@ -36,7 +36,7 @@ import OTP from './src/screens/OTP'
 import Driver from './src/screens/Driver'
 import Map from './src/screens/Map'
 import Riders from './src/screens/Riders'
-import { Button, Text } from 'react-native'
+import * as Location from 'expo-location'
 
 // import { io } from 'socket.io-client'
 
@@ -140,33 +140,6 @@ export default function App() {
     }
   )
 
-  // useEffect(() => {
-  //   socket.on(`${user.toString()}1`, async (data) => {
-  //     notification()
-  //     // dispatch(
-  //     //   setChat({
-  //     //     _id: data._id,
-  //     //     riderOneId: data.riderOneId,
-  //     //     riderOneName: data.riderOneName,
-  //     //     riderOneAvatar: data.riderOneAvatar,
-  //     //     riderOneMobile: data.riderOneMobile,
-
-  //     //     riderTwoId: data.riderTwoId,
-  //     //     riderTwoName: data.riderTwoName,
-  //     //     riderTwoAvatar: data.riderTwoAvatar,
-  //     //     riderTwoMobile: data.riderTwoMobile,
-
-  //     //     price: data.price,
-  //     //     message: data.message,
-  //     //     createdAt: data.createdAt,
-  //     //   })
-  //     // )
-
-  //     return null
-  //   })
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [user])
-
   useEffect(() => {
     SecureStore.getItemAsync('userInfo')
       .then((data) => {
@@ -201,6 +174,16 @@ export default function App() {
     }),
     []
   )
+
+  useEffect(() => {
+    ;(async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync()
+      if (status !== 'granted') {
+        console.log('Permission to access location was denied')
+        return
+      }
+    })()
+  }, [])
 
   return (
     <SafeAreaProvider>

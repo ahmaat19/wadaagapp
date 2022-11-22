@@ -106,7 +106,6 @@ const Profile = () => {
       setValue('name', getProfile?.data?.name)
       setValue('address', getProfile?.data?.address)
       setValue('mobile', getProfile?.data?.mobile)
-      setValue('bio', getProfile?.data?.bio)
       setUserType(getProfile?.data?.role)
       setImage(getProfile?.data?.image)
     }
@@ -151,7 +150,7 @@ const Profile = () => {
                   />
                 )}
 
-                <Text className='text-center'>Change profile picture</Text>
+                {/* <Text className='text-center'>Change profile picture</Text> */}
               </TouchableOpacity>
 
               <View className='bg-purple-50 px-4 py-2 rounded-full my-3'>
@@ -207,19 +206,6 @@ const Profile = () => {
                 name='address'
                 autoFocus={true}
                 placeholder='Address'
-              />
-            </View>
-            <View className='my-2'>
-              <CustomInput
-                control={control}
-                rules={{
-                  required: 'Bio is required',
-                }}
-                errors={errors}
-                className='bg-white-50 p-2.5'
-                name='bio'
-                autoFocus={true}
-                placeholder='Bio'
               />
             </View>
 

@@ -1,9 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import MapView, { Marker } from 'react-native-maps'
 import MapViewDirections from 'react-native-maps-directions'
-// import { GOOGLE_MAPS_API_KEY } from '@env'
-
-const GOOGLE_MAPS_API_KEY = '******'
+import { GOOGLE_MAPS_API_KEY } from '../utils/key'
 
 const MapComp = ({
   origin,

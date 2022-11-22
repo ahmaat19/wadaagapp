@@ -27,11 +27,11 @@ const Setting = ({ navigation }) => {
           label: 'Profile',
           screen: 'Profile',
         },
-        {
-          icon: 'file-alt',
-          label: 'Account Information',
-          screen: 'AccountInformation',
-        },
+        // {
+        //   icon: 'file-alt',
+        //   label: 'Account Information',
+        //   screen: 'AccountInformation',
+        // },
       ],
     },
     userInfo?.role === 'RIDER' && {
@@ -45,34 +45,25 @@ const Setting = ({ navigation }) => {
       ],
     },
     {
-      label: 'Contact Details',
+      label: 'Contact Us',
       info: [
         {
           icon: 'phone-alt',
-          label: 'Call',
-          screen: 'Contact',
+          label: '+252 (0) 61 093 7744',
+          type: 'phone',
         },
         {
           icon: 'envelope',
-          label: 'Email Address',
-          screen: 'Contact',
+          label: 'wadaagapp@gmail.com',
+          type: 'email',
         },
         {
-          icon: 'facebook-messenger',
-          label: 'Live Chat',
-          screen: 'Contact',
+          icon: 'whatsapp',
+          label: 'WhatsApp',
+          type: 'whatsapp',
         },
       ],
     },
-    // {
-    //   label: 'Complaints',
-    //   info: [
-    //     {
-    //       icon: 'pen',
-    //       label: 'Complaints',
-    //     },
-    //   ],
-    // },
     {
       label: 'Logout',
       info: [
@@ -83,8 +74,29 @@ const Setting = ({ navigation }) => {
       ],
     },
   ]
+  const onPressHandler = (item) => {
+    if (item?.screen) {
+      return navigation.navigate(item?.screen)
+    }
 
+    if (item?.type) {
+      let url
+      if (item.type == 'phone') {
+        return (url = 'tel//:0610937744')
+      }
+      if (item.type == 'email') {
+        return (url = 'mailto//:wadaagapp@gmail.com')
+      }
+      if (item.type == 'whatsapp') {
+        return (url = `whatsapp://send?text=Mobile:${userInfo?.mobile};Name:${userInfo?.name};role:${userInfo?.role};Plate:${userInfo?.plate}&phone=+252610937744`)
+      }
+      return Linking.openURL(url)
+        .then((r) => console.log(r))
+        .catch((e) => console.log(e))
+    }
 
+    signOut()
+  }
   return (
     <ScrollView className='py-3'>
       {items?.map((item, index) => (
@@ -92,9 +104,7 @@ const Setting = ({ navigation }) => {
           <Text className='mb-1 px-5'>{item?.label}</Text>
           {item?.info?.map((i, idx) => (
             <TouchableOpacity
-              onPress={() =>
-                i?.screen ? navigation.navigate(i?.screen) : signOut()
-              }
+              onPress={() => onPressHandler(i)}
               key={idx}
               className='bg-white-50 mb-0.5 px-5'
             >
