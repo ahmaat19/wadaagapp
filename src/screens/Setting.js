@@ -1,14 +1,37 @@
 import { useFocusEffect } from '@react-navigation/native'
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { AuthContext } from '../AuthContext'
 import ListItem from '../components/ListItem'
 import * as SecureStore from 'expo-secure-store'
+import apiHook from '../api'
+import { Toast } from 'react-native-toast-message/lib/src/Toast'
+import Spinner from 'react-native-loading-spinner-overlay'
 
 const Setting = ({ navigation }) => {
   const { signOut } = useContext(AuthContext)
   const [userInfo, setUserInfo] = useState(null)
+
+  const accountDeletion = apiHook({
+    key: 'request-deletion',
+    method: 'POST',
+    url: 'accounts/request-deletion',
+  })?.post
+  const cancelDeletion = apiHook({
+    key: 'cancel-deletion',
+    method: 'POST',
+    url: 'accounts/cancel-request-deletion',
+  })?.post
+
+  useEffect(() => {
+    if (accountDeletion?.isError) {
+      Toast.show({
+        type: 'error',
+        text1: accountDeletion?.error,
+      })
+    }
+  }, [accountDeletion?.error])
 
   useFocusEffect(
     useCallback(() => {
@@ -73,6 +96,15 @@ const Setting = ({ navigation }) => {
         },
       ],
     },
+    userInfo?.status !== 'deleted' && {
+      label: 'Dangerous Zone',
+      info: [
+        {
+          icon: 'trash',
+          label: 'Delete Account',
+        },
+      ],
+    },
   ]
   const onPressHandler = (item) => {
     if (item?.screen) {
@@ -95,25 +127,81 @@ const Setting = ({ navigation }) => {
         .catch((e) => console.log(e))
     }
 
-    signOut()
+    if (item?.label === 'Logout') {
+      signOut()
+    }
+    if (item?.label === 'Delete Account') {
+      accountDeletion
+        .mutateAsync(userInfo)
+        .then((res) => {
+          // console.log(res)
+
+          const newValue = { ...userInfo, status: res.status }
+
+          SecureStore.setItemAsync('userInfo', JSON.stringify(newValue))
+            .then((v) => setUserInfo(newValue))
+            .catch((err) => err)
+        })
+
+        .catch((err) => {
+          console.log(err)
+        })
+    }
   }
+
+  const cancelRequestDeletion = () => {
+    cancelDeletion
+      .mutateAsync(userInfo)
+      .then((res) => {
+        const newValue = { ...userInfo, status: res.status }
+
+        SecureStore.setItemAsync('userInfo', JSON.stringify(newValue))
+          .then((v) => setUserInfo(newValue))
+          .catch((err) => err)
+      })
+
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   return (
-    <ScrollView className='py-3'>
-      {items?.map((item, index) => (
-        <View key={index} className='mb-3'>
-          <Text className='mb-1 px-5'>{item?.label}</Text>
-          {item?.info?.map((i, idx) => (
-            <TouchableOpacity
-              onPress={() => onPressHandler(i)}
-              key={idx}
-              className='bg-white-50 mb-0.5 px-5'
-            >
-              <ListItem item={i} />
-            </TouchableOpacity>
-          ))}
+    <>
+      <View className='z-10'>
+        <Toast />
+      </View>
+      <Spinner
+        visible={accountDeletion?.isLoading || cancelDeletion?.isLoading}
+      />
+      <ScrollView className='py-3'>
+        {items?.map((item, index) => (
+          <View key={index} className='mb-3'>
+            <Text className='mb-1 px-5'>{item?.label}</Text>
+            {item?.info?.map((i, idx) => (
+              <TouchableOpacity
+                onPress={() => onPressHandler(i)}
+                key={idx}
+                className='bg-white-50 mb-0.5 px-5'
+              >
+                <ListItem item={i} />
+              </TouchableOpacity>
+            ))}
+          </View>
+        ))}
+        <View className='p-5'>
+          {userInfo?.status === 'deleted' && (
+            <>
+              <Text className='text-red-500'>
+                Your account will be deleted within 24 hours.
+              </Text>
+              <TouchableOpacity onPress={cancelRequestDeletion}>
+                <Text className='text-blue-500'>Cancel request.</Text>
+              </TouchableOpacity>
+            </>
+          )}
         </View>
-      ))}
-    </ScrollView>
+      </ScrollView>
+    </>
   )
 }
 

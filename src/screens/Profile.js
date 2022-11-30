@@ -118,7 +118,6 @@ const Profile = () => {
         SecureStore.getItemAsync('userInfo')
           .then((obj) => {
             const parsed = JSON.parse(obj)
-            console.log(res)
             parsed.name = res.name
             SecureStore.setItemAsync('userInfo', JSON.stringify(parsed))
               .then((v) => v)

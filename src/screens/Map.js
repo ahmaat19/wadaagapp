@@ -132,7 +132,7 @@ const Map = ({ navigation, route }) => {
                 setError={setError}
               />
             </View>
-            <View className='h-1/5 px-5'>
+            <View className='h-1/3 px-5'>
               <View className='my-2'>
                 <GooglePlacesAutocomplete
                   placeholder='Where to?'
@@ -190,28 +190,29 @@ const Map = ({ navigation, route }) => {
                     )}
                   </View>
                 )}
-            </View>
-            <View className='h-1/6 px-5 mt-5'>
-              <TouchableOpacity
-                onPress={handleSubmit(submitHandler)}
-                className='p-3 bg-purple-50 rounded-full justify-center items-center flex-row shadow-lg'
-              >
-                {route?.params?.selected === 'riderOne' ? (
-                  <>
-                    <FontAwesome5 name='paper-plane' size={24} color='#fff' />
-                    <Text className='text-white-50 uppercase ml-2'>
-                      Start Trip
-                    </Text>
-                  </>
-                ) : (
-                  <>
-                    <FontAwesome5 name='search' size={24} color='#fff' />
-                    <Text className='text-white-50 uppercase ml-2'>
-                      Search Near Riders
-                    </Text>
-                  </>
-                )}
-              </TouchableOpacity>
+
+              <View className=' my-auto'>
+                <TouchableOpacity
+                  onPress={handleSubmit(submitHandler)}
+                  className='p-3 bg-purple-50 rounded-full justify-center items-center flex-row shadow-lg'
+                >
+                  {route?.params?.selected === 'riderOne' ? (
+                    <>
+                      <FontAwesome5 name='paper-plane' size={24} color='#fff' />
+                      <Text className='text-white-50 uppercase ml-2'>
+                        Start Trip
+                      </Text>
+                    </>
+                  ) : (
+                    <>
+                      <FontAwesome5 name='search' size={24} color='#fff' />
+                      <Text className='text-white-50 uppercase ml-2'>
+                        Search Near Riders
+                      </Text>
+                    </>
+                  )}
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </TouchableWithoutFeedback>
