@@ -16,6 +16,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import apiHook from '../api'
 import * as SecureStore from 'expo-secure-store'
 import Toast from 'react-native-toast-message'
+import { Picker } from '@react-native-picker/picker'
 
 const Profile = () => {
   const {
@@ -29,6 +30,7 @@ const Profile = () => {
 
   const [image, setImage] = useState(null)
   const [userType, setUserType] = useState(null)
+  const [district, setDistrict] = useState('waberi')
 
   const getProfile = apiHook({
     key: 'profile',
@@ -104,7 +106,8 @@ const Profile = () => {
   useEffect(() => {
     if (getProfile?.data) {
       setValue('name', getProfile?.data?.name)
-      setValue('address', getProfile?.data?.address)
+      // setValue('district', getProfile?.data?.district)
+      setDistrict(getProfile?.data?.district)
       setValue('mobile', getProfile?.data?.mobile)
       setUserType(getProfile?.data?.role)
       setImage(getProfile?.data?.image)
@@ -113,7 +116,7 @@ const Profile = () => {
 
   const submitHandler = (data) => {
     putProfile
-      .mutateAsync(data)
+      .mutateAsync({ ...data, district })
       .then((res) => {
         SecureStore.getItemAsync('userInfo')
           .then((obj) => {
@@ -130,13 +133,36 @@ const Profile = () => {
       })
   }
 
+  const districts = [
+    { label: 'Ceelasha Biyaha', value: 'Ceelasha Biyaha' },
+    { label: 'Grasbaaleey', value: 'Grasbaaleey' },
+    { label: 'Kaxda', value: 'Kaxda' },
+    { label: 'Dayniile', value: 'Dayniile' },
+    { label: 'Dharkeynleey', value: 'Dharkeynleey' },
+    { label: 'Wadajir', value: 'Wadajir' },
+    { label: 'Waberi', value: 'Waberi' },
+    { label: 'Hodan', value: 'Hodan' },
+    { label: 'Hawlwadaag', value: 'Hawlwadaag' },
+    { label: 'Xamar Jajab', value: 'Xamar Jajab' },
+    { label: 'Wartanabada', value: 'Wartanabada' },
+    { label: 'Xamar Weyne', value: 'Xamar Weyne' },
+    { label: 'Yaqshid', value: 'Yaqshid' },
+    { label: 'Boondheere', value: 'Boondheere' },
+    { label: 'Cabdicasiis', value: 'Cabdicasiis' },
+    { label: 'Shibis', value: 'Shibis' },
+    { label: 'Shangaani', value: 'Shangaani' },
+    { label: 'Hiliwaa', value: 'Hiliwaa' },
+    { label: 'Kaaraan', value: 'Kaaraan' },
+  ]
+
   return (
     <>
       <ScrollView>
         <KeyboardAvoidWrapperTabs>
-          <Toast />
-          <Spinner visible={getProfile?.isLoading || putProfile?.isLoading} />
-
+          <View className='z-10'>
+            <Toast />
+            <Spinner visible={getProfile?.isLoading || putProfile?.isLoading} />
+          </View>
           <View className='mx-5 my-auto'>
             <View className='rounded-full items-center'>
               <TouchableOpacity>
@@ -194,7 +220,7 @@ const Profile = () => {
                 editable={false}
               />
             </View>
-            <View className='my-2'>
+            {/* <View className='my-2'>
               <CustomInput
                 control={control}
                 rules={{
@@ -206,6 +232,18 @@ const Profile = () => {
                 autoFocus={true}
                 placeholder='Address'
               />
+            </View> */}
+
+            <View className='bg-white-50'>
+              <Picker
+                // itemStyle={{ height: 120 }}
+                selectedValue={district}
+                onValueChange={(itemValue) => setDistrict(itemValue)}
+              >
+                {districts?.map((d, i) => (
+                  <Picker.Item key={i} label={d.label} value={d.value} />
+                ))}
+              </Picker>
             </View>
 
             <View className='my-2'>

@@ -6,7 +6,7 @@ import apiHook from '../api'
 import Spinner from 'react-native-loading-spinner-overlay'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import { GOOGLE_MAPS_API_KEY } from '../utils/key'
-import { SafeAreaView } from 'react-native-safe-area-context'
+// import { SafeAreaView } from 'react-native-safe-area-context'
 import { chatReducer, INITIAL_STATE } from '../chatReducer'
 import { useFocusEffect } from '@react-navigation/native'
 import Toast from 'react-native-toast-message'
@@ -171,54 +171,62 @@ const Home = ({ navigation }) => {
       .catch((e) => console.log(e))
   }
   return (
-    <SafeAreaView>
-      {pendingTrip?.data?.status === 'pending' && (
-        <View className='bg-green-500 shadow shadow-green-300 z-20 absolute w-screen px-5 pt-3 pb- h-24'>
-          <View className='justify-between flex-row top-10'>
-            <TouchableOpacity
-              onPress={() =>
-                completeTrip?.mutateAsync({
-                  ...pendingTrip?.data,
-                  actionStatus: 'completed',
-                })
-              }
-              className='flex-row items-center border border-purple-50 shadow px-3 py-1 rounded-full'
-            >
-              <FontAwesome5 name='check-circle' size={24} color='#7e287e' />
-              <Text className='ml-2 text-purple-50'>Complete Trip</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() =>
-                cancelTrip?.mutateAsync({
-                  ...pendingTrip?.data,
-                  actionStatus: 'cancelled',
-                })
-              }
-              className='flex-row items-center border border-red-500 shadow px-3 py-1 rounded-full'
-            >
-              <FontAwesome5 name='times-circle' size={24} color='#ef4444' />
-              <Text className='ml-2 text-red-500'>Cancel Trip</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      )}
-
-      <View
-        className={`px-5 flex-auto ${
-          pendingTrip?.data?.status === 'pending' ? 'py-16' : 'pt-16'
-        }`}
-      >
-        <Toast />
-        <Spinner
-          visible={
-            transactions?.isLoading ||
-            pendingTrip?.isLoading ||
-            cancelTrip?.isLoading
-          }
+    // <SafeAreaView>
+    <View className='relative'>
+      <View className='z-10 bg-black w-full h-60 flex items-center justify-center absolute'>
+        <Image
+          source={require('../../assets/headerImage.png')}
+          className='w-full h-full opacity-50'
         />
+      </View>
+      <View className='z-20'>
+        {pendingTrip?.data?.status === 'pending' && (
+          <View className='bg-green-500 shadow z-20 absolute w-screen px-5 pt-3 pb- h-24'>
+            <View className='justify-between flex-row top-10'>
+              <TouchableOpacity
+                onPress={() =>
+                  completeTrip?.mutateAsync({
+                    ...pendingTrip?.data,
+                    actionStatus: 'completed',
+                  })
+                }
+                className='flex-row items-center border border-purple-50 shadow px-3 py-1 rounded-full'
+              >
+                <FontAwesome5 name='check-circle' size={24} color='#7e287e' />
+                <Text className='ml-2 text-purple-50'>Complete Trip</Text>
+              </TouchableOpacity>
 
-        {/* {(transactions?.isError ||
+              <TouchableOpacity
+                onPress={() =>
+                  cancelTrip?.mutateAsync({
+                    ...pendingTrip?.data,
+                    actionStatus: 'cancelled',
+                  })
+                }
+                className='flex-row items-center border border-red-500 shadow px-3 py-1 rounded-full'
+              >
+                <FontAwesome5 name='times-circle' size={24} color='#ef4444' />
+                <Text className='ml-2 text-red-500'>Cancel Trip</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+
+        <View
+          className={`px-5 flex-auto mt-7 ${
+            pendingTrip?.data?.status === 'pending' ? 'py-16' : 'pt-16'
+          }`}
+        >
+          <Toast />
+          <Spinner
+            visible={
+              transactions?.isLoading ||
+              pendingTrip?.isLoading ||
+              cancelTrip?.isLoading
+            }
+          />
+
+          {/* {(transactions?.isError ||
           pendingTrip?.isError ||
           cancelTrip?.isError) && (
           <View className='items-center my-2 border border-purple-50 py-2'>
@@ -227,109 +235,112 @@ const Home = ({ navigation }) => {
             </Text>
           </View>
         )} */}
-        <Text className='font-bold text-md text-2xl text-purple-50 my-2'>
-          {userInfo?.name},
-        </Text>
-        <Text
-          className={`mb-3 ${
-            Number(transactions?.data?.expirationDays) <= 0 && 'text-red-500'
-          }`}
-        >
-          It's about to expire in {transactions?.data?.expirationDays || 0}{' '}
-          days.
-        </Text>
-
-        {Number(transactions?.data?.expirationDays) < 1 && (
-          <TouchableOpacity
-            onPress={_pressCall}
-            className='items-center border border-red-500 shadow px-3 py-2'
-          >
-            <Text className='text-red-500 uppercase'>
-              Pay Now (*789*638744*1#)
-            </Text>
-          </TouchableOpacity>
-        )}
-
-        <View className='my-4'>
-          <GooglePlacesAutocomplete
-            placeholder='Where from?'
-            nearbyPlacesAPI='GooglePlacesSearch'
-            debounce={400}
-            styles={{
-              container: {
-                flex: 0,
-              },
-            }}
-            onPress={(data, details = null) => {
-              setOrigin({
-                location: details.geometry.location,
-                description: data.description,
-              })
-            }}
-            fetchDetails={true}
-            minLength={2}
-            enablePoweredByContainer={false}
-            query={{
-              key: GOOGLE_MAPS_API_KEY,
-              language: 'en',
-              components: 'country:so',
-            }}
-          />
-        </View>
-
-        <View className='flex justify-between flex-row my-5'>
-          <TouchableOpacity
-            disabled={!origin}
-            className={`bg-white-50 w-36 h-60 items-center ${
-              !origin ? 'opacity-50' : 'opacity-100'
-            } justify-center ${
-              selected === 'riderOne'
-                ? 'border border-purple-50 shadow-2xl'
-                : ''
+          <Text className='font-bold text-md text-2xl text-white-50 my-2'>
+            {userInfo?.name},
+          </Text>
+          <Text
+            className={`mb-3 text-white-50 ${
+              Number(transactions?.data?.expirationDays) <= 0 && 'text-red-500'
             }`}
-            onPress={() => setSelected('riderOne')}
           >
-            <Image
-              source={require('../../assets/riderone.png')}
-              className='w-24 h-24'
-            />
-            <View className='mt-3'>
-              <Text className='text-lg'>Rider One</Text>
-              <FontAwesome5
-                name='arrow-circle-right'
-                size={24}
-                color='#7e287e'
-              />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            disabled={!origin}
-            className={`bg-white-50 w-36 h-60 items-center ${
-              !origin ? 'opacity-50' : 'opacity-100'
-            } justify-center ${
-              selected === 'riderTwo'
-                ? 'border border-purple-50 shadow-2xl'
-                : ''
-            }`}
-            onPress={() => setSelected('riderTwo')}
-          >
-            <Image
-              source={require('../../assets/ridertwo.png')}
-              className='w-24 h-24'
-            />
-            <View className='mt-3'>
-              <Text className='text-lg'>Rider Two</Text>
+            It's about to expire in {transactions?.data?.expirationDays || 0}{' '}
+            days.
+          </Text>
 
-              <FontAwesome5
-                name='arrow-circle-right'
-                size={24}
-                color='#7e287e'
+          {Number(transactions?.data?.expirationDays) < 1 && (
+            <TouchableOpacity
+              onPress={_pressCall}
+              className='items-center border border-red-500 shadow px-3 py-2'
+            >
+              <Text className='text-red-500 uppercase'>
+                Pay Now (*789*638744*1#)
+              </Text>
+            </TouchableOpacity>
+          )}
+
+          <View className='my-4'>
+            <GooglePlacesAutocomplete
+              placeholder='Where from?'
+              nearbyPlacesAPI='GooglePlacesSearch'
+              debounce={400}
+              styles={{
+                container: {
+                  flex: 0,
+                },
+              }}
+              onPress={(data, details = null) => {
+                setOrigin({
+                  location: details.geometry.location,
+                  description: data.description,
+                })
+              }}
+              fetchDetails={true}
+              minLength={2}
+              enablePoweredByContainer={false}
+              query={{
+                key: GOOGLE_MAPS_API_KEY,
+                language: 'en',
+                components: 'country:so',
+              }}
+            />
+          </View>
+
+          <View className='flex justify-between flex-row my-5'>
+            <TouchableOpacity
+              disabled={!origin}
+              className={`bg-white-50 w-36 h-60 items-center ${
+                !origin ? 'opacity-50' : 'opacity-100'
+              } justify-center ${
+                selected === 'riderOne'
+                  ? 'border border-purple-50 shadow-2xl'
+                  : ''
+              }`}
+              onPress={() => setSelected('riderOne')}
+            >
+              <Image
+                source={require('../../assets/riderone.png')}
+                className='w-24 h-24'
               />
-            </View>
-          </TouchableOpacity>
+              <View className='mt-3'>
+                <Text className='text-lg'>Rider One</Text>
+                <FontAwesome5
+                  name='arrow-circle-right'
+                  size={24}
+                  color='#7e287e'
+                />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              disabled={!origin}
+              className={`bg-white-50 w-36 h-60 items-center ${
+                !origin ? 'opacity-50' : 'opacity-100'
+              } justify-center ${
+                selected === 'riderTwo'
+                  ? 'border border-purple-50 shadow-2xl'
+                  : ''
+              }`}
+              onPress={() => setSelected('riderTwo')}
+            >
+              <Image
+                source={require('../../assets/ridertwo.png')}
+                className='w-24 h-24'
+              />
+              <View className='mt-3'>
+                <Text className='text-lg'>Rider Two</Text>
+
+                <FontAwesome5
+                  name='arrow-circle-right'
+                  size={24}
+                  color='#7e287e'
+                />
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
+
+    // </SafeAreaView>
   )
 }
 

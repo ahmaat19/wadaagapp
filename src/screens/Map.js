@@ -71,7 +71,7 @@ const Map = ({ navigation, route }) => {
     if (route?.params?.selected === 'riderOne') {
       return startTrip
         ?.mutateAsync({
-          plate: data.plate,
+          // plate: data.plate,
           origin: route?.params?.origin,
           destination,
           distance,
@@ -160,7 +160,7 @@ const Map = ({ navigation, route }) => {
                 />
               </View>
 
-              {route?.params?.selected === 'riderOne' && (
+              {/* {route?.params?.selected === 'riderOne' && (
                 <View className='mb-3 h-12 bg-white-50 justify-center'>
                   <CustomInput
                     control={control}
@@ -173,7 +173,7 @@ const Map = ({ navigation, route }) => {
                     placeholder='Plate'
                   />
                 </View>
-              )}
+              )} */}
 
               {(duration || distance) &&
                 route?.params?.selected === 'riderOne' && (

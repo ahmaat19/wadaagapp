@@ -6,7 +6,6 @@ import {
   ActivityIndicator,
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { FontAwesome5 } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import KeyboardAvoidWrapper from '../components/KeyboardAvoidWrapper'
 import CustomInput from '../components/CustomInput'
@@ -19,7 +18,8 @@ import Toast from 'react-native-toast-message'
 
 const Register = () => {
   const navigation = useNavigation()
-  const [userType, setUserType] = useState('rider')
+  // const [userType, setUserType] = useState('rider')
+  const userType = 'rider'
   const [district, setDistrict] = useState('waberi')
 
   const register = apiHook({
@@ -95,14 +95,14 @@ const Register = () => {
           <Spinner visible={register?.isLoading} />
 
           <View className='bg-white-50'>
-            <Picker
+            {/* <Picker
               itemStyle={{ height: 120 }}
               selectedValue={userType}
               onValueChange={(itemValue) => setUserType(itemValue)}
             >
               <Picker.Item label='Rider' value='rider' />
               <Picker.Item label='Driver' value='driver' />
-            </Picker>
+            </Picker> */}
           </View>
 
           <View className='my-2'>
@@ -185,7 +185,7 @@ const Register = () => {
 
           <View className='bg-white-50'>
             <Picker
-              itemStyle={{ height: 120 }}
+              // itemStyle={{ height: 120 }}
               selectedValue={district}
               onValueChange={(itemValue) => setDistrict(itemValue)}
             >
