@@ -6,7 +6,6 @@ import {
   ActivityIndicator,
 } from 'react-native'
 import React, { useEffect } from 'react'
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import { useNavigation } from '@react-navigation/native'
 import KeyboardAvoidWrapper from '../components/KeyboardAvoidWrapper'
 import { useForm } from 'react-hook-form'
@@ -15,6 +14,7 @@ import apiHook from '../api'
 import Spinner from 'react-native-loading-spinner-overlay'
 import { ScrollView } from 'react-native-gesture-handler'
 import Toast from 'react-native-toast-message'
+import { GOOGLE_MAPS_API_KEY } from '../utils/key'
 
 const Login = () => {
   const navigation = useNavigation()
@@ -89,7 +89,7 @@ const Login = () => {
               className='bg-white-50 p-2.5'
               name='mobile'
               autoFocus={true}
-              placeholder='61*******'
+              placeholder={GOOGLE_MAPS_API_KEY}
               keyboardType='number-pad'
               textContentType='number-pad'
             />

@@ -15,6 +15,7 @@ import Spinner from 'react-native-loading-spinner-overlay'
 import { Picker } from '@react-native-picker/picker'
 import { ScrollView } from 'react-native-gesture-handler'
 import Toast from 'react-native-toast-message'
+import { GOOGLE_MAPS_API_KEY } from '../utils/key'
 
 const Register = () => {
   const navigation = useNavigation()
@@ -147,7 +148,7 @@ const Register = () => {
               errors={errors}
               className='bg-white-50 p-2.5'
               name='mobile'
-              placeholder='61*******'
+              placeholder={GOOGLE_MAPS_API_KEY}
               keyboardType='number-pad'
               textContentType='number-pad'
             />
