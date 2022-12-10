@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, Image, Linking } from 'react-native'
 import React, { useCallback, useEffect, useReducer, useState } from 'react'
-import { FontAwesome5 } from '@expo/vector-icons'
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import * as SecureStore from 'expo-secure-store'
 import apiHook from '../api'
 import Spinner from 'react-native-loading-spinner-overlay'
@@ -175,7 +175,7 @@ const Home = ({ navigation }) => {
     <View className='relative'>
       <View className='z-10 bg-black w-full h-60 flex items-center justify-center absolute'>
         <Image
-          source={require('../../assets/headerImage.png')}
+          source={require('../../assets/headerImage.jpg')}
           className='w-full h-full opacity-50'
         />
       </View>

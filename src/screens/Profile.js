@@ -11,7 +11,6 @@ import KeyboardAvoidWrapperTabs from '../components/KeyboardAvoidWrapperTabs'
 import CustomInput from '../components/CustomInput'
 import { useForm } from 'react-hook-form'
 import Spinner from 'react-native-loading-spinner-overlay'
-import * as ImagePicker from 'expo-image-picker'
 import { ScrollView } from 'react-native-gesture-handler'
 import apiHook from '../api'
 import * as SecureStore from 'expo-secure-store'
@@ -68,19 +67,19 @@ const Profile = () => {
     }
   }, [putProfile?.error])
 
-  useEffect(() => {
-    const permissionRequest = async () => {
-      if (Platform.OS !== 'web') {
-        const { status } =
-          await ImagePicker.requestMediaLibraryPermissionsAsync()
-        if (status !== 'granted') {
-          alert('Permission denied')
-        }
-      }
+  // useEffect(() => {
+  //   const permissionRequest = async () => {
+  //     if (Platform.OS !== 'web') {
+  //       const { status } =
+  //         await ImagePicker.requestMediaLibraryPermissionsAsync()
+  //       if (status !== 'granted') {
+  //         alert('Permission denied')
+  //       }
+  //     }
 
-      permissionRequest()
-    }
-  }, [])
+  //     permissionRequest()
+  //   }
+  // }, [])
 
   // const pickImage = async () => {
   //   let result = await ImagePicker.launchImageLibraryAsync({

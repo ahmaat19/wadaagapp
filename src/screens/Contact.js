@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native'
 import React from 'react'
-import { FontAwesome5 } from '@expo/vector-icons'
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 
 const Contact = () => {

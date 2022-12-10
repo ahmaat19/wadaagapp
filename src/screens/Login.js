@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
 } from 'react-native'
 import React, { useEffect } from 'react'
-import { FontAwesome5 } from '@expo/vector-icons'
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import { useNavigation } from '@react-navigation/native'
 import KeyboardAvoidWrapper from '../components/KeyboardAvoidWrapper'
 import { useForm } from 'react-hook-form'

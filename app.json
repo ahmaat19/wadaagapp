@@ -2,7 +2,7 @@
   "expo": {
     "name": "Wadaag",
     "slug": "wadaag",
-    "version": "1.0.1",
+    "version": "1.0.7",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -18,14 +18,14 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.wadaag",
-      "buildNumber": "1",
+      "buildNumber": "2",
       "config": {
         "googleMapsApiKey": "*****"
       },
       "infoPlist": {
         "UIBackgroundModes": ["location", "fetch"],
         "NSLocationAlwaysAndWhenInUseUsageDescription": "The Wadaag App uses your location to pick origins, destinations, and find your ride sharing partners",
-        "NSLocationAlwaysUsageDescription": "The Wadaag App uses your location to pick origins, destinations, and find your ride sharing partners",
+        "NSLocationUsageDescription": "The Wadaag App uses your location to pick origins, destinations, and find your ride sharing partners",
         "NSLocationWhenInUseUsageDescription": "The Wadaag App uses your location to pick origins, destinations, and find your ride sharing partners"
       }
     },
@@ -36,7 +36,7 @@
           "apiKey": "*****"
         }
       },
-      "versionCode": 7,
+      "versionCode": 8,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#7e287e"

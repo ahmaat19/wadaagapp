@@ -72,7 +72,7 @@ const Setting = ({ navigation }) => {
       info: [
         {
           icon: 'phone-alt',
-          label: '+252 (0) 61 093 7744',
+          label: '+252 (0) 61 947 6191',
           type: 'phone',
         },
         {
@@ -114,13 +114,13 @@ const Setting = ({ navigation }) => {
     if (item?.type) {
       let url
       if (item.type == 'phone') {
-        return (url = 'tel//:0610937744')
+        return (url = 'tel//:0619476191')
       }
       if (item.type == 'email') {
         return (url = 'mailto//:wadaagapp@gmail.com')
       }
       if (item.type == 'whatsapp') {
-        return (url = `whatsapp://send?text=Mobile:${userInfo?.mobile};Name:${userInfo?.name};role:${userInfo?.role};Plate:${userInfo?.plate}&phone=+252610937744`)
+        return (url = `whatsapp://send?text=Mobile:${userInfo?.mobile};Name:${userInfo?.name};role:${userInfo?.role};Plate:${userInfo?.plate}&phone=+252619476191`)
       }
       return Linking.openURL(url)
         .then((r) => console.log(r))

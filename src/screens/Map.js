@@ -13,7 +13,7 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import { GOOGLE_MAPS_API_KEY } from '../utils/key'
 import { useForm } from 'react-hook-form'
 import CustomInput from '../components/CustomInput'
-import { FontAwesome5 } from '@expo/vector-icons'
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import apiHook from '../api'
 import Toast from 'react-native-toast-message'
 

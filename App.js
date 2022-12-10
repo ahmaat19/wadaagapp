@@ -1,8 +1,4 @@
-import {
-  NavigationContainer,
-  useFocusEffect,
-  useNavigation,
-} from '@react-navigation/native'
+import { NavigationContainer, useFocusEffect } from '@react-navigation/native'
 import { StatusBar } from 'expo-status-bar'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -31,14 +27,12 @@ import Chat from './src/screens/Chat'
 
 import { AuthContext } from './src/AuthContext'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { FontAwesome5 } from '@expo/vector-icons'
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import OTP from './src/screens/OTP'
 import Driver from './src/screens/Driver'
 import Map from './src/screens/Map'
 import Riders from './src/screens/Riders'
 import * as Location from 'expo-location'
-
-// import { io } from 'socket.io-client'
 
 const queryClient = new QueryClient()
 const Stack = createStackNavigator()
@@ -80,7 +74,6 @@ export const MyTabs = ({ navigation }) => {
           } else if (route.name === 'Chats') {
             iconName = 'facebook-messenger'
           }
-
           return <FontAwesome5 name={iconName} size={size} color={color} />
         },
         tabBarActiveTintColor: '#7e287e',
