@@ -14,7 +14,6 @@ import apiHook from '../api'
 import Spinner from 'react-native-loading-spinner-overlay'
 import { ScrollView } from 'react-native-gesture-handler'
 import Toast from 'react-native-toast-message'
-import { GOOGLE_MAPS_API_KEY } from '../utils/key'
 
 const Login = () => {
   const navigation = useNavigation()
@@ -89,7 +88,7 @@ const Login = () => {
               className='bg-white-50 p-2.5'
               name='mobile'
               autoFocus={true}
-              placeholder={GOOGLE_MAPS_API_KEY}
+              placeholder='61xxxxxxx'
               keyboardType='number-pad'
               textContentType='number-pad'
             />

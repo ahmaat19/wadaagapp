@@ -1,4 +1,4 @@
-import { View, Dimensions } from 'react-native'
+import { View, Dimensions, Button, TouchableOpacity, Text } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import * as SecureStore from 'expo-secure-store'
 
@@ -10,6 +10,7 @@ import { chatReducer, INITIAL_STATE } from '../chatReducer'
 import apiHook from '../api'
 import Toast from 'react-native-toast-message'
 import Spinner from 'react-native-loading-spinner-overlay'
+import moment from 'moment/moment'
 
 const Chat = ({ navigation, route }) => {
   const [userInfo, setUserInfo] = useState(null)
@@ -67,6 +68,7 @@ const Chat = ({ navigation, route }) => {
       .mutateAsync({ ...messages[0], secondUser: route.params?._id })
       .then((res) => {
         send(messages[0])
+        chat?.refetch()
       })
       .catch((err) => {
         console.log(err)
@@ -74,14 +76,95 @@ const Chat = ({ navigation, route }) => {
   }, [])
 
   const height = Dimensions.get('screen').height
+
+  const rider2 = chat?.data?.[0]
+
+  const sendRequest = () => {
+    onSend([
+      {
+        _id: '18fd061e-baab-4695-8edf-d2f1df485f0e',
+        createdAt: moment().format(),
+        text: 'Asckm',
+        user: {
+          _id: userInfo?._id,
+          name: userInfo?.name,
+          avatar: userInfo?.avatar,
+        },
+      },
+    ])
+  }
+
+  const acceptRequest = () => {
+    onSend([
+      {
+        _id: '18fd061e-baab-4695-8edf-d2f1df485f2e',
+        createdAt: moment().format(),
+        text: 'Wcslm',
+        user: {
+          _id: userInfo?._id,
+          name: userInfo?.name,
+          avatar: userInfo?.avatar,
+        },
+      },
+    ])
+  }
+
   return (
     <>
       <Toast />
       <Spinner visible={chat?.isLoading || newChat?.isLoading} />
+
+      {rider2?.text !== 'Asckm' && (
+        <View className='flex-row justify-center items-center flex-1 m-5'>
+          <TouchableOpacity
+            onPress={() => sendRequest()}
+            className='bg-purple-50 p-3 w-full'
+          >
+            <Text className='text-white-50 font-bold text-center uppercase'>
+              Send Request
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
+      {chat?.data?.length < 2 &&
+        rider2?.text === 'Asckm' &&
+        rider2?.user?._id === userInfo?._id && (
+          <View className='flex-row justify-center items-center flex-1 m-5'>
+            <TouchableOpacity className='bg-purple-50 p-3 w-full'>
+              <Text className='text-white-50 font-bold text-center uppercase'>
+                Request has been sent
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
+      {chat?.data?.length < 2 &&
+        rider2?.text === 'Asckm' &&
+        rider2?.user?._id !== userInfo?._id && (
+          <View className='flex-row justify-center items-center flex-1 m-5'>
+            <TouchableOpacity
+              onPress={() => acceptRequest()}
+              className='bg-purple-50 p-3 w-full'
+            >
+              <Text className='text-white-50 font-bold text-center uppercase'>
+                Accept Request
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
       {!chat?.isLoading && !chat?.isError && (
         <View style={{ flex: 1 }}>
           <GiftedChat
-            messages={chat.data}
+            disableComposer={
+              chat?.data?.length < 2 && rider2?.text === 'Asckm' ? true : false
+            }
+            messages={
+              chat?.data?.length < 2 && rider2?.text === 'Asckm'
+                ? []
+                : chat.data
+            }
             showAvatarForEveryMessage={true}
             inverted={false}
             maxInputLength={height}

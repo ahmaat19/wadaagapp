@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
+import { Linking, Text, TouchableOpacity, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { AuthContext } from '../AuthContext'
 import ListItem from '../components/ListItem'
@@ -106,6 +106,7 @@ const Setting = ({ navigation }) => {
       ],
     },
   ]
+
   const onPressHandler = (item) => {
     if (item?.screen) {
       return navigation.navigate(item?.screen)
@@ -114,7 +115,7 @@ const Setting = ({ navigation }) => {
     if (item?.type) {
       let url
       if (item.type == 'phone') {
-        return (url = 'tel//:0619476191')
+        return (url = 'telprompt: 0619476191')
       }
       if (item.type == 'email') {
         return (url = 'mailto//:wadaagapp@gmail.com')
